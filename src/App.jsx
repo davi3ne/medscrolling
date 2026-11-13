@@ -361,12 +361,106 @@ export default function App() {
     return correct;
   }, [quizAnswers]);
 
+  const scrollPositionsRef = useRef({ feed: 0, explore: 0, saved: 0, me: 0 });
+  const navDepthRef = useRef(0);
+  const navStateRef = useRef({
+    tab: 'feed',
+    viewingProfile: null,
+    activeFichaPost: null,
+    storyViewerState: null,
+  });
+  navStateRef.current = { tab, viewingProfile, activeFichaPost, storyViewerState };
+
+  const restoreScroll = useCallback((key) => {
+    const y = scrollPositionsRef.current[key] || 0;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, y);
+      });
+    });
+  }, []);
+
+  const pushNavHistory = useCallback(() => {
+    window.history.pushState({ medscrolling: true }, '');
+    navDepthRef.current += 1;
+  }, []);
+
+  const goBackInApp = useCallback(() => {
+    if (navDepthRef.current > 0) {
+      window.history.back();
+      return;
+    }
+    const cur = navStateRef.current;
+    if (cur.storyViewerState) setStoryViewerState(null);
+    else if (cur.activeFichaPost) setActiveFichaPost(null);
+    else if (cur.viewingProfile) {
+      setViewingProfile(null);
+      restoreScroll(cur.tab);
+    } else if (cur.tab !== 'feed') {
+      setTab('feed');
+      restoreScroll('feed');
+    }
+  }, [restoreScroll]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      navDepthRef.current = Math.max(0, navDepthRef.current - 1);
+      const cur = navStateRef.current;
+      if (cur.storyViewerState) {
+        setStoryViewerState(null);
+      } else if (cur.activeFichaPost) {
+        setActiveFichaPost(null);
+      } else if (cur.viewingProfile) {
+        setViewingProfile(null);
+        restoreScroll(cur.tab);
+      } else if (cur.tab !== 'feed') {
+        setTab('feed');
+        restoreScroll('feed');
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [restoreScroll]);
+
+  const navigateToTab = useCallback(
+    (nextTab) => {
+      const cur = navStateRef.current;
+      if (!cur.viewingProfile && cur.tab === nextTab) return;
+      if (!cur.viewingProfile) {
+        scrollPositionsRef.current[cur.tab] = window.scrollY;
+      }
+      if (cur.viewingProfile) {
+        setViewingProfile(null);
+      }
+      if (nextTab !== 'feed' && (cur.tab === 'feed' || cur.viewingProfile)) {
+        pushNavHistory();
+      }
+      setTab(nextTab);
+      restoreScroll(nextTab);
+    },
+    [pushNavHistory, restoreScroll]
+  );
+
+  const openFicha = useCallback(
+    (post) => {
+      pushNavHistory();
+      setActiveFichaPost(post);
+    },
+    [pushNavHistory]
+  );
+
   const openProfile = (handle) => {
+    const cur = navStateRef.current;
+    if (!cur.viewingProfile) {
+      scrollPositionsRef.current[cur.tab] = window.scrollY;
+    }
+    pushNavHistory();
     setViewingProfile(handle);
     window.scrollTo({ top: 0 });
   };
 
   const openStory = (handle) => {
+    pushNavHistory();
     const handlesList = storyProfiles.map((p) => p.handle);
     let idx = handlesList.indexOf(handle);
     if (idx === -1) {
@@ -381,6 +475,11 @@ export default function App() {
   }, []);
 
   const handleFilterTag = (tag) => {
+    const cur = navStateRef.current;
+    if (!cur.viewingProfile) {
+      scrollPositionsRef.current[cur.tab] = window.scrollY;
+    }
+    pushNavHistory();
     setViewingProfile(null);
     setSearchQuery(tag);
     setTab('explore');
@@ -417,7 +516,7 @@ export default function App() {
             savedIds={savedIds}
             notesMap={notesMap}
             quizAnswers={quizAnswers}
-            onBack={() => setViewingProfile(null)}
+            onBack={goBackInApp}
             onToggleFollow={toggleFollow}
             onOpenStory={openStory}
             onToggleLike={toggleLike}
@@ -425,7 +524,7 @@ export default function App() {
             onToggleSave={toggleSave}
             onSelectQuizOption={selectQuizOption}
             onResetQuizOption={resetQuizOption}
-            onOpenFicha={setActiveFichaPost}
+            onOpenFicha={openFicha}
             onFilterTag={handleFilterTag}
           />
         ) : (
@@ -666,8 +765,8 @@ export default function App() {
                 onUnfollowAll={() => setFollowingHandles([])}
                 onResetSeen={resetSeen}
                 onOpenProfile={openProfile}
-                onOpenPostFicha={setActiveFichaPost}
-                onGoToSaved={() => setTab('saved')}
+                onOpenPostFicha={openFicha}
+                onGoToSaved={() => navigateToTab('saved')}
                 onExportBackup={exportBackup}
                 onImportBackup={importBackup}
                 onResetAllData={resetAllData}
@@ -749,7 +848,7 @@ export default function App() {
                         onToggleFollow={toggleFollow}
                         onSelectQuizOption={selectQuizOption}
                         onResetQuizOption={resetQuizOption}
-                        onOpenFicha={setActiveFichaPost}
+                        onOpenFicha={openFicha}
                         onFilterProfile={openProfile}
                         onFilterTag={handleFilterTag}
                         onSeen={markPostSeen}
@@ -787,7 +886,7 @@ export default function App() {
                         onToggleFollow={toggleFollow}
                         onSelectQuizOption={selectQuizOption}
                         onResetQuizOption={resetQuizOption}
-                        onOpenFicha={setActiveFichaPost}
+                        onOpenFicha={openFicha}
                         onFilterProfile={openProfile}
                         onFilterTag={handleFilterTag}
                         onSeen={markPostSeen}
@@ -835,8 +934,7 @@ export default function App() {
               if (!viewingProfile && tab === 'feed') {
                 refreshFeed();
               } else {
-                setViewingProfile(null);
-                setTab('feed');
+                navigateToTab('feed');
               }
             }}
             className="flex flex-1 items-center justify-center py-2"
@@ -853,10 +951,7 @@ export default function App() {
 
           <button
             type="button"
-            onClick={() => {
-              setViewingProfile(null);
-              setTab('explore');
-            }}
+            onClick={() => navigateToTab('explore')}
             className="flex flex-1 items-center justify-center py-2"
             aria-label="Explorar"
           >
@@ -871,10 +966,7 @@ export default function App() {
 
           <button
             type="button"
-            onClick={() => {
-              setViewingProfile(null);
-              setTab('saved');
-            }}
+            onClick={() => navigateToTab('saved')}
             className="flex flex-1 items-center justify-center py-2"
             aria-label="Salvos"
           >
@@ -891,10 +983,7 @@ export default function App() {
 
           <button
             type="button"
-            onClick={() => {
-              setViewingProfile(null);
-              setTab('me');
-            }}
+            onClick={() => navigateToTab('me')}
             className="flex flex-1 items-center justify-center py-2"
             aria-label="Minha Conta"
           >
@@ -920,7 +1009,7 @@ export default function App() {
         dark={dark}
         note={activeFichaPost ? notesMap[activeFichaPost.id] : ''}
         onSaveNote={saveNote}
-        onClose={() => setActiveFichaPost(null)}
+        onClose={goBackInApp}
       />
 
       {/* Fullscreen Instagram Stories Viewer */}
@@ -930,7 +1019,7 @@ export default function App() {
           initialProfileIndex={storyViewerState.index}
           profilesMap={profileMap}
           storiesMap={storiesData}
-          onClose={() => setStoryViewerState(null)}
+          onClose={goBackInApp}
           onOpenProfile={openProfile}
           onMarkViewed={markStoryViewed}
         />

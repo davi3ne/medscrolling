@@ -120,47 +120,48 @@ export default function PostMedia({
                 key={idx}
                 className="relative flex h-full w-full shrink-0 snap-center flex-col justify-between overflow-hidden"
               >
-                {/* Background image + rich tinted overlay */}
+                {/* Background image + balanced editorial scrim */}
                 <img
                   src={bgImage}
                   alt=""
-                  className="absolute inset-0 h-full w-full object-cover"
+                  className="absolute inset-0 h-full w-full object-cover brightness-105 contrast-105"
                 />
-                {slide.type === 'cover' ? (
+                {slide.type === 'cover' || idx === 0 ? (
                   <>
                     <div
                       className="absolute inset-0"
                       style={{
-                        background: `linear-gradient(155deg, ${brandColor}e8 0%, #09090be6 68%, #000000f5 100%)`,
+                        background:
+                          'linear-gradient(180deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.18) 38%, rgba(0,0,0,0.78) 68%, rgba(0,0,0,0.94) 100%)',
                       }}
                     />
                     <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white">
                       <div className="flex items-center justify-between">
                         <span
-                          className="rounded-full px-3 py-1 text-[10.5px] font-bold tracking-wider uppercase text-white shadow-sm"
+                          className="rounded-full px-3 py-1 text-[10.5px] font-bold tracking-wider uppercase text-white shadow-md"
                           style={{ backgroundColor: brandColor }}
                         >
                           {slide.kicker}
                         </span>
-                        <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[11px] font-medium backdrop-blur-sm">
+                        <span className="rounded-full bg-black/55 px-2.5 py-0.5 text-[11px] font-medium backdrop-blur-md">
                           @{post.profile}
                         </span>
                       </div>
 
-                      <div className="my-auto">
-                        <h2 className="text-[26px] leading-[1.18] font-extrabold tracking-tight drop-shadow-sm">
+                      <div className="mt-auto mb-3">
+                        <h2 className="text-[25px] leading-[1.16] font-extrabold tracking-tight drop-shadow-md">
                           {slide.title}
                         </h2>
-                        <p className="mt-4 text-[14.5px] leading-relaxed text-white/90">
+                        <p className="mt-2.5 text-[14px] leading-relaxed text-white/95 drop-shadow">
                           {slide.subtitle}
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between border-t border-white/20 pt-3">
-                        <span className="text-[12.5px] font-semibold text-white/90">
+                      <div className="flex items-center justify-between border-t border-white/25 pt-3">
+                        <span className="text-[12.5px] font-semibold text-white/95">
                           Arraste para o lado →
                         </span>
-                        <span className="rounded bg-white/15 px-2 py-0.5 text-[11px] font-bold">
+                        <span className="rounded bg-black/45 px-2 py-0.5 text-[11px] font-bold backdrop-blur-sm">
                           {post.id}
                         </span>
                       </div>
@@ -171,7 +172,8 @@ export default function PostMedia({
                     <div
                       className="absolute inset-0"
                       style={{
-                        background: `linear-gradient(180deg, ${brandColor}dd 0%, #0f172af0 38%, #09090bf5 100%)`,
+                        background:
+                          'linear-gradient(180deg, rgba(9,9,11,0.48) 0%, rgba(15,23,42,0.68) 50%, rgba(9,9,11,0.86) 100%)',
                       }}
                     />
                     <div className="relative z-10 flex h-full flex-col justify-between p-5 text-white">
@@ -258,7 +260,8 @@ export default function PostMedia({
           <div
             className="absolute inset-0"
             style={{
-              background: `linear-gradient(160deg, ${brandColor}d9 0%, #0f172af0 55%, #09090bf7 100%)`,
+              background:
+                'linear-gradient(160deg, rgba(15,23,42,0.45) 0%, rgba(15,23,42,0.68) 55%, rgba(9,9,11,0.85) 100%)',
             }}
           />
 
@@ -329,7 +332,7 @@ export default function PostMedia({
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(155deg, rgba(185, 28, 28, 0.88) 0%, rgba(24, 24, 27, 0.92) 58%, rgba(9, 9, 11, 0.97) 100%)',
+                'linear-gradient(180deg, rgba(153, 27, 27, 0.42) 0%, rgba(9, 9, 11, 0.58) 45%, rgba(9, 9, 11, 0.88) 100%)',
             }}
           />
 
