@@ -8,6 +8,7 @@ import {
   Eye,
   EyeOff,
   Heart,
+  Lightbulb,
 } from 'lucide-react';
 
 function pickBackgroundImage(post, profile) {
@@ -580,6 +581,65 @@ export default function PostMedia({
           <div
             className="relative z-10 rounded-xl border-l-4 bg-black/60 p-2.5 text-[11.5px] font-medium leading-snug text-white backdrop-blur-md"
             style={{ borderColor: brandColor }}
+          >
+            {post.content.takeaway}
+          </div>
+        </div>
+      )}
+
+      {/* ==================== CURIOSIDADE / RADAR CLÍNICO ==================== */}
+      {post.format === 'curiosidade' && (
+        <div
+          className="relative flex h-full w-full flex-col justify-between overflow-hidden p-5"
+          style={{
+            background: `linear-gradient(155deg, ${brandColor}dd 0%, #0b1120 48%, #020617 100%)`,
+          }}
+        >
+          {coverImage && (
+            <>
+              <img
+                src={coverImage}
+                alt=""
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35 mix-blend-luminosity"
+                loading="lazy"
+              />
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background: `linear-gradient(180deg, ${brandColor}66 0%, rgba(2,6,23,0.88) 45%, rgba(2,6,23,0.96) 100%)`,
+                }}
+              />
+            </>
+          )}
+
+          {/* Header Pill */}
+          <div className="relative z-10 flex items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/20 px-2.5 py-1 text-[10px] font-extrabold tracking-wider text-amber-300 ring-1 ring-amber-400/40 backdrop-blur-sm">
+              <Lightbulb className="h-3.5 w-3.5 text-amber-300" />
+              {post.content.badge || 'RADAR CLÍNICO'}
+            </span>
+            <span className="font-mono text-[10px] font-semibold text-white/60">
+              {post.id}
+            </span>
+          </div>
+
+          {/* Main Insight */}
+          <div className="relative z-10 my-auto flex flex-col gap-3 py-2">
+            <h3 className="text-[19px] font-extrabold leading-snug tracking-tight text-white">
+              {post.content.hook}
+            </h3>
+            <div className="rounded-2xl border border-white/10 bg-black/55 p-3.5 backdrop-blur-md">
+              <p className="text-[12.5px] leading-relaxed text-slate-100">
+                {post.content.fact}
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom Takeaway */}
+          <div
+            className="relative z-10 rounded-xl border-l-4 bg-white/10 p-2.5 text-[11.5px] font-semibold leading-snug text-amber-100 backdrop-blur-md"
+            style={{ borderColor: '#fbbf24' }}
           >
             {post.content.takeaway}
           </div>

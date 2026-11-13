@@ -53,5 +53,16 @@
     "verified": true,
     "microtemasCount": 26,
     "highlights": ["GABA-A", "Regra LOT", "Emergência", "Desmame"]
+  },
+  {
+    "handle": "depressao_maior_e_unipolar",
+    "name": "Depressão & Unipolar",
+    "bio": "Critérios clínicos, causas orgânicas ocultas, especificadores do DSM-5, depressão resistente e ECT.",
+    "avatarBg": "#0284C7",
+    "bgImage": "/images/bg-clinic.jpg",
+    "initials": "DM",
+    "verified": true,
+    "microtemasCount": 27,
+    "highlights": ["Critérios", "Causas Orgânicas", "DRT", "ECT"]
   }
 ]

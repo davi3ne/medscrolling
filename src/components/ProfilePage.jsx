@@ -9,6 +9,7 @@ import {
   MessageSquare,
   ArrowLeftRight,
   Play,
+  Lightbulb,
 } from 'lucide-react';
 import PostCard from './PostCard';
 
@@ -27,6 +28,7 @@ function FormatIcon({ format }) {
   if (format === 'red_flag') return <AlertTriangle className={cls} />;
   if (format === 'cena_real') return <MessageSquare className={cls} />;
   if (format === 'comparativo') return <ArrowLeftRight className={cls} />;
+  if (format === 'curiosidade') return <Lightbulb className={cls} />;
   return null;
 }
 
@@ -36,6 +38,7 @@ function getGridTitle(post) {
   if (post.format === 'red_flag') return post.content.headline;
   if (post.format === 'quiz') return post.fullCard.title.replace(`${post.id} — `, '');
   if (post.format === 'cena_real') return post.content.context;
+  if (post.format === 'curiosidade') return post.content.hook;
   return post.fullCard.title;
 }
 

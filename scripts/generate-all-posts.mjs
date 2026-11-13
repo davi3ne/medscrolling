@@ -35,6 +35,7 @@ const PROFILE_MAP = {
   antipsicoticos_e_neurolepticos: 'antipsicoticos_e_neurolepticos',
   estabilizadores_do_humor: 'estabilizadores_do_humor',
   sedativos_e_ansioliticos: 'sedativos_e_ansioliticos',
+  depressao_maior_e_unipolar: 'depressao_maior_e_unipolar',
 };
 
 function flushFicha() {
@@ -63,6 +64,7 @@ for (const rawLine of lines) {
       title: fichaMatch[2].trim(),
       tag: '#Psicofarmacologia',
       prereq: '',
+      resumoCard: '',
       explanation: '',
       dadosDuros: [],
       pegadinha: '',
@@ -80,6 +82,9 @@ for (const rawLine of lines) {
   } else if (line.startsWith('* **Pré-requisito:**')) {
     inDadosDuros = false;
     cur.prereq = line.replace('* **Pré-requisito:**', '').trim();
+  } else if (/^[\*\-]\s+\*\*Resumo Pronto para Card:\*\*/.test(line)) {
+    inDadosDuros = false;
+    cur.resumoCard = line.replace(/^[\*\-]\s+\*\*Resumo Pronto para Card:\*\*\s*/, '').trim();
   } else if (line.startsWith('* **Explicação Mastigada:**')) {
     inDadosDuros = false;
     cur.explanation = line.replace('* **Explicação Mastigada:**', '').trim();
@@ -223,9 +228,21 @@ const SLIDE2_TITLES = [
   'Ponto-chave da prescrição',
 ];
 
+const CURIOSIDADE_BADGES = [
+  'RADAR CLÍNICO',
+  'POUCA GENTE SABE',
+  'PONTO FORA DA CURVA',
+];
+
+const CURIOSIDADE_PRIORITY_IDS = new Set([
+  'DM-03', 'DM-06', 'DM-09', 'DM-15', 'DM-17', 'DM-24', 'DM-27',
+]);
+
 function buildGeneratedPost(ficha, idx) {
   const rawSentences = splitSentences(ficha.explanation);
-  const clinicalSentences = pickClinicalSentences(rawSentences);
+  const resumoSentences = ficha.resumoCard ? splitSentences(ficha.resumoCard) : [];
+  const clinicalSentences =
+    resumoSentences.length > 0 ? resumoSentences : pickClinicalSentences(rawSentences);
   const pegadinhaClean = cleanMd(ficha.pegadinha);
   const dadosClean = ficha.dadosDuros.map(cleanMd);
   const bgImage = pickBgImage(ficha);
@@ -243,7 +260,37 @@ function buildGeneratedPost(ficha, idx) {
     source: cleanMd(ficha.source),
   };
 
-  const useRedFlag = idx % 2 === 1 && pegadinhaClean.length > 20;
+  const useCuriosidade =
+    CURIOSIDADE_PRIORITY_IDS.has(ficha.id) || idx % 3 === 2;
+  const useRedFlag = !useCuriosidade && idx % 3 === 1 && pegadinhaClean.length > 20;
+
+  if (useCuriosidade) {
+    const factSource =
+      resumoSentences.length > 0
+        ? ficha.resumoCard
+        : clinicalSentences.slice(0, 2).join(' ') || ficha.explanation;
+    const factText = fitCompleteText(factSource, 230);
+    const takeawaySource =
+      dadosClean[0] || pegadinhaClean || clinicalSentences[clinicalSentences.length - 1] || ficha.title;
+    const takeawayText = fitCompleteText(takeawaySource, 130);
+
+    return {
+      id: ficha.id,
+      profile: ficha.profile,
+      format: 'curiosidade',
+      tag: ficha.tag,
+      location,
+      bgImage,
+      content: {
+        badge: CURIOSIDADE_BADGES[idx % CURIOSIDADE_BADGES.length],
+        hook: cleanMd(ficha.title),
+        fact: factText,
+        takeaway: takeawayText,
+      },
+      caption: fitCompleteText(`${factText} ${pegadinhaClean}`, 240),
+      fullCard,
+    };
+  }
 
   if (useRedFlag) {
     const pegSentences = splitSentences(pegadinhaClean);
@@ -342,4 +389,5 @@ for (const ficha of fichas) {
 }
 
 fs.writeFileSync(postsPath, JSON.stringify(finalPosts, null, 2) + '\n', 'utf-8');
-console.log(`Generated ${finalPosts.length} posts cleanly (zero mid-sentence "..." cuts).`);
+const ellipsisCount = finalPosts.filter((p) => JSON.stringify(p.content).includes('...')).length;
+console.log(`Generated ${finalPosts.length} posts cleanly (posts with "..." inside content: ${ellipsisCount}).`);

@@ -98,5 +98,25 @@
       "body": "Clonazepam 0,5 a 1 mg | Alprazolam 0,5 a 1 mg | Lorazepam 1 a 2 mg | Bromazepam 3 a 6 mg | Midazolam 7,5 a 15 mg.",
       "footer": "BZD-02 · Fontana Cap. 4"
     }
+  ],
+  "depressao_maior_e_unipolar": [
+    {
+      "tag": "RASTREIO OBRIGATÓRIO",
+      "title": "Pediu TSH antes do ISRS?",
+      "body": "Mais de 40% dos pacientes com hipotireoidismo apresentam sintomas depressivos. Com TSH alto e T4 livre baixo, a conduta é Levotiroxina.",
+      "footer": "DM-05 · Fontana Cap. 4"
+    },
+    {
+      "tag": "PSEUDODEMÊNCIA",
+      "title": "O idoso que diz \"não sei\"",
+      "body": "Início súbito, sofrimento com os esquecimentos e respostas \"não sei\" apontam para pseudodemência depressiva — reversível com tratamento.",
+      "footer": "DM-17 · DSM-5 / Fontana"
+    },
+    {
+      "tag": "ECT NA GESTAÇÃO",
+      "title": "Gestante grave não contraindica",
+      "body": "Pelo contrário: na depressão psicótica, catatonia ou risco suicida iminente na gravidez, a ECT protege o feto da polifarmácia.",
+      "footer": "DM-27 · Fontana Cap. 4"
+    }
   ]
 }

@@ -24,6 +24,7 @@ import MyProfilePage from './components/MyProfilePage';
 const FORMAT_LABELS = [
   { id: 'all', label: 'Todos' },
   { id: 'carrossel', label: 'Carrossel' },
+  { id: 'curiosidade', label: 'Radar Clínico' },
   { id: 'quiz', label: 'Mini-Quiz' },
   { id: 'comparativo', label: 'Comparativo Vs' },
   { id: 'red_flag', label: 'Red Flag' },
@@ -65,8 +66,14 @@ export default function App() {
 
   const [followingHandles, setFollowingHandles] = useState(() => {
     try {
-      const saved = localStorage.getItem('medfeed_following');
-      return saved ? JSON.parse(saved) : ALL_HANDLES;
+      const savedRaw = localStorage.getItem('medfeed_following');
+      const knownRaw = localStorage.getItem('medscrolling_known_profiles');
+      const known = knownRaw ? JSON.parse(knownRaw) : [];
+      localStorage.setItem('medscrolling_known_profiles', JSON.stringify(ALL_HANDLES));
+      if (!savedRaw) return ALL_HANDLES;
+      const saved = JSON.parse(savedRaw);
+      const newHandles = ALL_HANDLES.filter((h) => !known.includes(h) && !saved.includes(h));
+      return newHandles.length > 0 ? [...saved, ...newHandles] : saved;
     } catch {
       return ALL_HANDLES;
     }
