@@ -1,0 +1,102 @@
+{
+  "isrs_e_duais": [
+    {
+      "tag": "LATÊNCIA CLÍNICA",
+      "title": "Quando esperar resposta do ISRS?",
+      "body": "Início dos efeitos clínicos: 2 a 4 semanas. Resposta máxima: 6 a 8 semanas. Nunca troque de antidepressivo na semana 2 achando que falhou.",
+      "footer": "ISRS-02 · Fontana Cap. 4"
+    },
+    {
+      "tag": "PÓS-INFARTO",
+      "title": "Qual ISRS escolher no cardiopata?",
+      "body": "Sertralina é o fármaco de primeira linha no pós-IAM recente: mínimo risco de alargamento de QTc e baixas interações medicamentosas.",
+      "footer": "ISRS-07 · Fontana Cap. 4"
+    },
+    {
+      "tag": "DESCONTINUAÇÃO",
+      "title": "Meia-vida mais longa vs. mais curta",
+      "body": "Fluoxetina (norfluoxetina dura até 14 dias) praticamente não dá síndrome de retirada. Paroxetina e Venlafaxina dão choques e tontura se atrasar 1 dia.",
+      "footer": "ISRS-03 / ISRS-16 · Fontana Cap. 4"
+    }
+  ],
+  "antidepressivos_classicos_e_atipicos": [
+    {
+      "tag": "TRICÍCLICOS · ECG",
+      "title": "Regra dos 100 ms na emergência",
+      "body": "Na intoxicação por Amitriptilina/Nortriptilina, QRS >= 100 ms no ECG indica Bicarbonato de Sódio 8,4% IV imediato (alvo pH 7,45–7,55).",
+      "footer": "ADT-03 · Emergências Psiquiátricas"
+    },
+    {
+      "tag": "BUPROPIONA",
+      "title": "Contraindicação absoluta em prova",
+      "body": "Nunca prescreva Bupropiona em pacientes com Epilepsia, Bulimia Nervosa ou Anorexia purgativa — reduz o limiar convulsivo de forma dose-dependente.",
+      "footer": "ADT-19 · Fontana Cap. 4"
+    },
+    {
+      "tag": "IMAO · WASHOUT",
+      "title": "Troca entre Tranilcipromina e ISRS",
+      "body": "Regra obrigatória: aguardar 14 dias (2 semanas) após suspender IMAO antes de iniciar ISRS, evitando Síndrome Serotoninérgica fatal.",
+      "footer": "ADT-11 · Fontana Cap. 4"
+    }
+  ],
+  "antipsicoticos_e_neurolepticos": [
+    {
+      "tag": "OCUPAÇÃO D2",
+      "title": "A janela terapêutica estriatal",
+      "body": "60% a 75% de bloqueio D2 = efeito antipsicótico eficaz. Acima de 80% = disparam distonia aguda, acatisia e parkinsonismo.",
+      "footer": "AP-01 / AP-05 · Fontana Cap. 4"
+    },
+    {
+      "tag": "ACATISIA vs. PSICOSE",
+      "title": "Erro clássico na enfermaria",
+      "body": "Paciente não para quieto nas pernas após Haloperidol. Se você aumentar a dose achando que é agitação psicótica, piora a acatisia. Conduta: reduzir dose ou usar Propranolol.",
+      "footer": "AP-08 · Emergências Psiquiátricas"
+    },
+    {
+      "tag": "CLOZAPINA",
+      "title": "Hemograma obrigatório",
+      "body": "Risco de agranulocitose (~1%). Hemograma semanal nas primeiras 18 semanas, quinzenal até completar 1 ano e mensal depois.",
+      "footer": "AP-21 / AP-22 · Fontana Cap. 4"
+    }
+  ],
+  "estabilizadores_do_humor": [
+    {
+      "tag": "LITEMIA · FAIXAS",
+      "title": "Números exatos para decorar",
+      "body": "Mania aguda: 0,8 a 1,2 mEq/L. Manutenção: 0,6 a 0,8 mEq/L. Idosos (>= 65 anos): 0,4 a 0,6 mEq/L. Acima de 1,5 mEq/L já há risco de neurotoxicidade.",
+      "footer": "EH-03 · Diretrizes / Fontana"
+    },
+    {
+      "tag": "POLIÚRIA NO LÍTIO",
+      "title": "Diabetes Insipidus Nefrogênico",
+      "body": "O lítio bloqueia aquaporinas-2 no ducto coletor. Se houver poliúria intensa (> 3L/dia), NÃO use tiazídico sem monitorar — preferir Amilorida.",
+      "footer": "EH-06 · Fontana Cap. 4"
+    },
+    {
+      "tag": "VALPROATO",
+      "title": "Mulher em idade fértil",
+      "body": "Maior potencial teratogênico da psiquiatria (defeitos de tubo neural em 1%–5% + queda de QI). Evitar sempre que houver alternativa segura.",
+      "footer": "EH-15 · DSM-5 / Fontana"
+    }
+  ],
+  "sedativos_e_ansioliticos": [
+    {
+      "tag": "HEPATOPATA & IDOSO",
+      "title": "A regra do LOT",
+      "body": "Lorazepam, Oxazepam e Temazepam fazem glicuronidação direta (Fase 2), sem metabólitos ativos. No Brasil, o BZD mais seguro no cirrótico é o Lorazepam.",
+      "footer": "BZD-03 / BZD-04 · Fontana Cap. 4"
+    },
+    {
+      "tag": "DELIRIUM NO IDOSO",
+      "title": "Nunca calme delirium com BZD",
+      "body": "Diazepam ou Clonazepam em idoso com delirium piora a confusão e gera reação paradoxal (agressividade). Exceção: Delirium Tremens (abstinência alcoólica).",
+      "footer": "BZD-10 / BZD-13 · Fontana Cap. 7"
+    },
+    {
+      "tag": "EQUIVALÊNCIA",
+      "title": "Diazepam 10 mg equivale a...",
+      "body": "Clonazepam 0,5 a 1 mg | Alprazolam 0,5 a 1 mg | Lorazepam 1 a 2 mg | Bromazepam 3 a 6 mg | Midazolam 7,5 a 15 mg.",
+      "footer": "BZD-02 · Fontana Cap. 4"
+    }
+  ]
+}

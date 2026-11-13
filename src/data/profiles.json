@@ -1,0 +1,57 @@
+[
+  {
+    "handle": "isrs_e_duais",
+    "name": "ISRS & Duais",
+    "bio": "Farmacologia clínica de primeira linha: ISRS e IRSN. Titulação, interações e manejo prático.",
+    "avatarBg": "#059669",
+    "bgImage": "/images/bg-pharma.jpg",
+    "initials": "IS",
+    "verified": true,
+    "microtemasCount": 24,
+    "highlights": ["Latência", "QTc", "Interações", "IRSN"]
+  },
+  {
+    "handle": "antidepressivos_classicos_e_atipicos",
+    "name": "Clássicos & Atípicos",
+    "bio": "Tricíclicos, IMAOs, Bupropiona, Mirtazapina e Trazodona. Toxicologia e usos específicos.",
+    "avatarBg": "#D97706",
+    "bgImage": "/images/bg-er.jpg",
+    "initials": "CA",
+    "verified": true,
+    "microtemasCount": 28,
+    "highlights": ["Tricíclicos", "IMAO", "Mirtazapina", "Bupropiona"]
+  },
+  {
+    "handle": "antipsicoticos_e_neurolepticos",
+    "name": "Antipsicóticos",
+    "bio": "Vias dopaminérgicas, sintomas extrapiramidais, SNM, síndrome metabólica e Clozapina.",
+    "avatarBg": "#2563EB",
+    "bgImage": "/images/bg-neuro.jpg",
+    "initials": "AP",
+    "verified": true,
+    "microtemasCount": 29,
+    "highlights": ["4 Vias", "SEP / DT", "SNM", "Clozapina"]
+  },
+  {
+    "handle": "estabilizadores_do_humor",
+    "name": "Estabilizadores",
+    "bio": "Litioterapia, Valproato, Carbamazepina e Lamotrigina. Janela terapêutica e segurança.",
+    "avatarBg": "#7C3AED",
+    "bgImage": "/images/bg-clinic.jpg",
+    "initials": "EH",
+    "verified": true,
+    "microtemasCount": 30,
+    "highlights": ["Litemia", "Gestação", "Valproato", "SSJ / NET"]
+  },
+  {
+    "handle": "sedativos_e_ansioliticos",
+    "name": "Sedativos & Ansiolíticos",
+    "bio": "Benzodiazepínicos, GABA-A, drogas Z, álcool/abstinência e protocolos de desmame.",
+    "avatarBg": "#E11D48",
+    "bgImage": "/images/bg-er.jpg",
+    "initials": "SA",
+    "verified": true,
+    "microtemasCount": 26,
+    "highlights": ["GABA-A", "Regra LOT", "Emergência", "Desmame"]
+  }
+]

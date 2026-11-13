@@ -1,0 +1,539 @@
+[
+  {
+    "id": "ISRS-05",
+    "profile": "isrs_e_duais",
+    "format": "red_flag",
+    "tag": "#SegurancaCardiovascular",
+    "location": "Cardiotoxicidade · Citalopram",
+    "likes": 184,
+    "timeAgo": "2 h",
+    "content": {
+      "badge": "ERRO DE PRESCRIÇÃO",
+      "headline": "Passou de 40 mg de Citalopram? Você abriu porta pra Torsades de Pointes.",
+      "trapLabel": "O que muita gente faz no ambulatório:",
+      "trapText": "Paciente não melhorou com Citalopram 40 mg, e o médico sobe para 60 mg/dia sem checar o ECG.",
+      "revealLabel": "Regra seca de prescrição:",
+      "revealText": "Citalopram alarga o intervalo QTc de forma dose-dependente. Teto máximo: 40 mg/dia no adulto e 20 mg/dia no idoso (>= 65 anos) ou hepatopata. Não deu conta? Troca de fármaco ou vai de Sertralina.",
+      "hardNumbers": ["Adultos: teto 40 mg/dia", "Idosos (>= 65a): teto 20 mg/dia", "Risco: QTc > 500 ms / Torsades"]
+    },
+    "caption": "Dobrar Citalopram para 60 mg quando o paciente não responde é erro clássico de consultório e de prova. Em idoso ou paciente que já toma amiodarona, quetiapina ou haloperidol, o limite cai pela metade: 20 mg/dia.",
+    "fullCard": {
+      "title": "ISRS-05 — Prolongamento do Intervalo QTc com Citalopram e Escitalopram",
+      "explanation": "O Citalopram bloqueia canais de potássio hERG miocárdicos de maneira dose-dependente, retardando a repolarização ventricular (aumento do QTc). O Escitalopram também possui alerta de QTc em doses > 20 mg/dia, embora em menor intensidade.",
+      "hardData": "• Dose máxima de Citalopram em adultos hígidos: 40 mg/dia.\n• Dose máxima em idosos (> 65 anos), hepatopatas ou inibidores de CYP2C19 (ex.: omeprazol): 20 mg/dia.\n• Alternativa mais segura no pós-IAM ou cardiopata: Sertralina.",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; Diretrizes FDA / ANVISA"
+    }
+  },
+  {
+    "id": "BZD-05",
+    "profile": "sedativos_e_ansioliticos",
+    "format": "comparativo",
+    "tag": "#EmergenciasPsiquiatricas",
+    "location": "Contenção Química · Sala Vermelha",
+    "likes": 247,
+    "timeAgo": "3 h",
+    "content": {
+      "title": "Paciente quebrando o pronto-socorro: Diazepam IM ou Midazolam IM?",
+      "left": {
+        "name": "Diazepam IM",
+        "status": "NÃO FAÇA",
+        "color": "red",
+        "points": [
+          "Cristaliza assim que entra no músculo",
+          "Absorção lenta e imprevisível (pior que comprimido)",
+          "Paciente continua agitado por 1 hora",
+          "Causa dor forte e risco de necrose local"
+        ]
+      },
+      "right": {
+        "name": "Midazolam IM",
+        "status": "ESCOLHA CERTA",
+        "color": "green",
+        "points": [
+          "Hidrossolúvel na ampola, absorve rápido no músculo",
+          "Atravessa a barreira hematoencefálica em minutos",
+          "Acalma em 5 a 15 minutos",
+          "Dose usual na agitação: 7,5 a 15 mg IM"
+        ]
+      },
+      "footer": "Diazepam IM é pegadinha pura. Se faltar Midazolam na UPA, vai de Haloperidol 5 mg + Prometazina 25–50 mg IM."
+    },
+    "caption": "Quem já prescreveu Diazepam 10 mg IM no plantão viu na pele: o paciente continua agitado e você fica olhando para o relógio. O Diazepam cristaliza na fibra muscular. Quer sedação IM que funciona? Midazolam.",
+    "fullCard": {
+      "title": "BZD-05 — Via Intramuscular: Absorção Errática do Diazepam vs. Midazolam",
+      "explanation": "O Diazepam injetável sofre precipitação/cristalização na massa muscular devido à mudança abrupta de pH e solubilidade aquosa. O Midazolam possui anel imidazólico dependente de pH que permanece hidrossolúvel na ampola e fecha no tecido, atravessando rápido a barreira hematoencefálica.",
+      "hardData": "• Pico sedativo Midazolam IM: 5 a 15 minutos (dose usual na agitação: 7,5 a 15 mg IM).\n• Se o uso de Diazepam IM for inevitável por falta absoluta de opção, aplicar exclusivamente no músculo deltoide.",
+      "source": "6 - Revisando com Questões Inéditas - Psiquiatria, Questão 1, pp. 1–2; Aula_Emergencias_Psiquiatricas, slides 11, 14; Fontana, Cap. 4, pp. 121, 142"
+    }
+  },
+  {
+    "id": "EH-04",
+    "profile": "estabilizadores_do_humor",
+    "format": "cena_real",
+    "tag": "#Litioterapia",
+    "location": "Ambulatório de Transtorno Bipolar",
+    "likes": 312,
+    "timeAgo": "4 h",
+    "content": {
+      "context": "09h30 da manhã · Paciente chega assustado com o exame na mão",
+      "dialogue": [
+        {
+          "speaker": "Paciente",
+          "text": "Doutor, minha litemia deu 1,6 mEq/L! A enfermeira do posto disse que estou intoxicado e mandou parar o remédio hoje!"
+        },
+        {
+          "speaker": "Médico",
+          "text": "Calma. Você está sentindo tremor grosso, náusea, diarreia ou tontura?"
+        },
+        {
+          "speaker": "Paciente",
+          "text": "Nada, estou ótimo. Só tomei o meu lítio de 07h da manhã antes de ir colher o sangue às 09h."
+        },
+        {
+          "speaker": "Médico",
+          "text": "Tá explicado. O exame pegou o pico de absorção no sangue (2 a 4h depois do comprimido), não a sua dose basal."
+        }
+      ],
+      "takeaway": "Litemia só vale se for colhida 12 horas depois da última dose da noite, em jejum, ANTES do comprimido da manhã."
+    },
+    "caption": "Reduzir Lítio por causa de coleta feita 2 horas depois do comprimido é um dos erros mais comuns do ambulatório. Antes de mexer na receita, pergunte sempre: 'Que horas você tomou o remédio e que horas colheu o sangue?'",
+    "fullCard": {
+      "title": "EH-04 — Protocolo Exato da Coleta de Litemia (Janela de 12 Horas)",
+      "explanation": "A litemia avalia o vale plasmático em estado de equilíbrio (steady-state). Coletas feitas entre 2 e 4 horas pós-dose capturam o pico de absorção gastrointestinal, gerando falso-positivo de intoxicação em paciente assintomático.",
+      "hardData": "• Janela obrigatória de coleta: 8 a 12 horas (padrão-ouro 12h) após a dose noturna, antes da dose da manhã.\n• Aguardar 7 dias após início ou ajuste de dose para colher nova litemia.\n• Paciente estável: repetir a cada 6 meses junto com creatinina, TSH e eletrólitos.",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4, pp. 219, 299–302; ANTIDEPRESSIVOS.pptx, slides 16–17"
+    }
+  },
+  {
+    "id": "BZD-08",
+    "profile": "sedativos_e_ansioliticos",
+    "format": "quiz",
+    "tag": "#ToxicologiaFarmacologica",
+    "location": "Questão de Emergência · Toxicologia",
+    "likes": 195,
+    "timeAgo": "5 h",
+    "content": {
+      "question": "Paciente de 28 anos chega em coma (Glasgow 9) após tomar Clonazepam + Amitriptilina. No ECG: taquicardia e QRS de 130 ms. Você faz Flumazenil?",
+      "options": [
+        { "id": "A", "text": "Sim, Flumazenil 0,2 mg EV rápido para acordar o paciente", "correct": false },
+        { "id": "B", "text": "NÃO! Flumazenil é proibido aqui — entra com Bicarbonato de Sódio 8,4% IV", "correct": true },
+        { "id": "C", "text": "Sim, em bomba de infusão contínua por 6 horas", "correct": false },
+        { "id": "D", "text": "Só se as pupilas estiverem mióticas", "correct": false }
+      ],
+      "explanation": "Viu QRS > 100 ms (suspeita de Tricíclico)? Flumazenil é PROIBIDO. O Clonazepam está segurando o limiar convulsivo contra a Amitriptilina. Se você der Flumazenil, o paciente convulsiona na hora e pode fazer arritmia ventricular fatal. Conduta: Bicarbonato de Sódio 8,4% IV."
+    },
+    "caption": "Essa derruba muita gente no plantão e na prova: querer 'acordar' paciente em coma misto com Flumazenil. Viu QRS alargado (> 100 ms) ou onda R alta em aVR? Esquece o Flumazenil.",
+    "fullCard": {
+      "title": "BZD-08 / BZD-20 — Intoxicação Aguda por BZD vs. Coingestão com Tricíclicos",
+      "explanation": "O Flumazenil é um antagonista competitivo puro dos receptores GABA-A com meia-vida ultracurta (40 a 60 minutos). Seu uso rotineiro é contraindicado em usuários crônicos de BZD (risco de estado de mal epiléptico) e em coingestões com pró-convulsivantes como os tricíclicos.",
+      "hardData": "• Meia-vida do Flumazenil: 40 a 60 minutos (risco de ressedaço).\n• Critério de cardiotoxicidade por tricíclico no ECG: QRS > 100 ms.\n• Tratamento da intoxicação por ADT: Bicarbonato de Sódio 8,4% IV (alvo de pH 7,45–7,55).",
+      "source": "6 - Revisando com Questões Inéditas, Questões 17 e 18, pp. 12–14; Aula_Emergencias_Psiquiatricas, slide 8"
+    }
+  },
+  {
+    "id": "AP-01",
+    "profile": "antipsicoticos_e_neurolepticos",
+    "format": "carrossel",
+    "tag": "#AntipsicoticosTipicos",
+    "location": "Psicofarmacologia · 4 Vias",
+    "likes": 428,
+    "timeAgo": "6 h",
+    "content": {
+      "slides": [
+        {
+          "type": "cover",
+          "kicker": "ENTENDA DE VEZ",
+          "title": "Por que o Haloperidol tira o delírio, mas trava o pescoço e faz sair leite?",
+          "subtitle": "Tudo se resume a bloquear dopamina (D2) em 4 lugares diferentes ao mesmo tempo."
+        },
+        {
+          "type": "body",
+          "step": "1 / 4 · VIA MESOLÍMBICA",
+          "title": "Aqui é onde o remédio funciona",
+          "text": "Vai da Área Tegmentar Ventral (ATV) até o Núcleo Accumbens.",
+          "highlight": "Na esquizofrenia tem excesso de dopamina aqui (delírio e alucinação). Bloquear D2 nessa via limpa o surto psicótico."
+        },
+        {
+          "type": "body",
+          "step": "2 / 4 · VIA MESOCORTICAL",
+          "title": "Aqui já faltava dopamina",
+          "text": "Vai da ATV até o Córtex Pré-Frontal.",
+          "highlight": "A falta de dopamina aqui gera apatia, embotamento e lentidão. Se o antipsicótico típico bloqueia D2 aqui também, os sintomas negativos pioram."
+        },
+        {
+          "type": "body",
+          "step": "3 / 4 · VIA NIGROESTRIATAL",
+          "title": "Passou de 80% de bloqueio? Trava o corpo",
+          "text": "Vai da Substância Negra até o Corpo Estriado (controle motor).",
+          "highlight": "Gera distonia aguda (torcicolo, crise oculógira), acatisia, parkinsonismo e, depois de anos, Discinesia Tardia."
+        },
+        {
+          "type": "body",
+          "step": "4 / 4 · VIA TUBEROINFUNDIBULAR",
+          "title": "Dopamina freava a prolactina",
+          "text": "Vai do Hipotálamo até a Hipófise Anterior.",
+          "highlight": "Tirou o freio da dopamina? A prolactina dispara: galactorreia, ginecomastia e amenorreia."
+        }
+      ]
+    },
+    "caption": "Decorar efeito colateral de antipsicótico não funciona. Sabendo essas 4 vias, você deduz na hora por que o paciente teve torcicolo ou galactorreia.",
+    "fullCard": {
+      "title": "AP-01 — Vias Dopaminérgicas Centrais e suas Repercussões Clínicas",
+      "explanation": "O bloqueio inespecífico dos receptores D2 em todas as quatro vias explica simultaneamente o efeito antipsicótico (mesolímbica) e os três grandes grupos de efeitos adversos dos neurolépticos típicos (piora de negativos na mesocortical, SEP na nigroestriatal e hiperprolactinemia na tuberoinfundibular).",
+      "hardData": "• Janela ideal de ocupação D2 estriatal: 60% a 75% (eficácia clínica).\n• Limiar de sintomas extrapiramidais (SEP): ocupação > 80%.\n• Limiar aproximado de hiperprolactinemia: ocupação > 72%.",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; Guia de Estudos em Psiquiatria Clínica"
+    }
+  },
+  {
+    "id": "ADT-21",
+    "profile": "antidepressivos_classicos_e_atipicos",
+    "format": "quiz",
+    "tag": "#BupropionaEMirtazapina",
+    "location": "Farmacodinâmica · Mirtazapina",
+    "likes": 269,
+    "timeAgo": "8 h",
+    "content": {
+      "question": "Idoso tomando Mirtazapina 15 mg dormia bem. Você subiu para 45 mg e ele voltou dizendo que o sono DIMINUIU. Por quê?",
+      "options": [
+        { "id": "A", "text": "Criou tolerância hepática pela CYP2D6 na 3ª semana", "correct": false },
+        { "id": "B", "text": "Em 15 mg domina o bloqueio H1 (sono); em 45 mg o bloqueio alfa-2 libera noradrenalina e reduz a sedação", "correct": true },
+        { "id": "C", "text": "Em 45 mg passa a bloquear recaptação de dopamina (DAT)", "correct": false },
+        { "id": "D", "text": "Em 45 mg causa agitação anticolinérgica por bloqueio M1", "correct": false }
+      ],
+      "explanation": "Mirtazapina tem sedação INVERSA à dose: 7,5 a 15 mg dão muito sono porque predomina o bloqueio histamínico H1. Quando sobe para 30–45 mg, entra o bloqueio alfa-2 pré-sináptico liberando noradrenalina, o que dá uma acordada no paciente."
+    },
+    "caption": "Se o paciente já dorme bem com Mirtazapina 15 mg e você sobe para 45 mg querendo potencializar o sono, acontece o contrário: ele dorme menos.",
+    "fullCard": {
+      "title": "ADT-21 — Mirtazapina: Sedação Inversa em Doses Baixas (15 mg) vs. Doses Altas (30 a 45 mg)",
+      "explanation": "A Mirtazapina é um antidepressivo noradrenérgico e serotoninérgico específico (NaSSA). Possui altíssima afinidade por H1 (sedação e ganho ponderal já em 7,5–15 mg) e afinidade progressivamente relevante por autorreceptores alfa-2 em doses >= 30 mg.",
+      "hardData": "• Dose para insônia / idoso: 7,5 a 15 mg ao deitar.\n• Dose antidepressiva plena: 30 a 45 mg/dia.\n• Vantagem importante: praticamente isenta de disfunção sexual (bloqueio 5-HT2 e 5-HT3).",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; ANTIDEPRESSIVOS.pptx"
+    }
+  },
+  {
+    "id": "ADT-03",
+    "profile": "antidepressivos_classicos_e_atipicos",
+    "format": "carrossel",
+    "tag": "#Triciclicos",
+    "location": "Protocolo de Sala Vermelha",
+    "likes": 356,
+    "timeAgo": "9 h",
+    "content": {
+      "slides": [
+        {
+          "type": "cover",
+          "kicker": "SALA VERMELHA",
+          "title": "Tomou uma caixa de Amitriptilina. O que você faz nos primeiros 3 minutos?",
+          "subtitle": "Tricíclico não espera laboratório: mata por arritmia ventricular rápida."
+        },
+        {
+          "type": "body",
+          "step": "1 / 3 · RECONHEÇA A TOXÍNDROME",
+          "title": "Pupila dilatada, pele seca e taquicardia",
+          "text": "Clínica anticolinérgica clássica: midríase, retenção urinária, rubor e confusão mental.",
+          "highlight": "Os 3 C's da morte: Convulsão, Coma e Cardiotoxicidade (bloqueio de canais de Na+ no coração)."
+        },
+        {
+          "type": "body",
+          "step": "2 / 3 · OLHOU PRO ECG?",
+          "title": "QRS >= 100 ms é o alarme",
+          "text": "Esquece dosagem sérica no sangue — roda um ECG de 12 derivações na hora.",
+          "highlight": "QRS >= 100 ms = risco iminente de convulsão e TV/FV. Olhe também se há onda R > 3 mm em aVR."
+        },
+        {
+          "type": "body",
+          "step": "3 / 3 · ANTÍDOTO NA VEIA",
+          "title": "Bicarbonato de Sódio 8,4% IV",
+          "text": "Alargou o QRS (>= 100 ms), caiu a pressão ou fez arritmia? Não pense duas vezes.",
+          "highlight": "Faça Bicarbonato de Sódio 8,4% (1–2 mEq/kg IV em bolus) até estreitar o QRS (alvo pH 7,45–7,55)."
+        }
+      ]
+    },
+    "caption": "Na intoxicação por Amitriptilina ou Nortriptilina, o ECG vale mais que qualquer exame de sangue. QRS alargou? É Bicarbonato de Sódio na veia.",
+    "fullCard": {
+      "title": "ADT-03 — Cardiotoxicidade dos Tricíclicos e Manejo com Bicarbonato de Sódio",
+      "explanation": "Os tricíclicos exercem efeito estabilizador de membrana tipo quinidina-símile por bloqueio dos canais rápidos de sódio no sistema His-Purkinje, alargando o complexo QRS e predispondo a taquicardia ventricular polimórfica.",
+      "hardData": "• Gatilho no ECG: QRS > 100 ms (risco de convulsão) e > 160 ms (risco altíssimo de arritmia).\n• Dose inicial: Bicarbonato de Sódio 8,4% 1–2 mEq/kg IV em bolus, mantendo pH arterial entre 7,45 e 7,55.\n• Contraindicado: Antiarrítmicos classe Ia/Ic e Flumazenil.",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4, pp. 20, 83; Aula_Emergencias_Psiquiatricas"
+    }
+  },
+  {
+    "id": "EH-11",
+    "profile": "estabilizadores_do_humor",
+    "format": "red_flag",
+    "tag": "#Litioterapia",
+    "location": "Gestação & Teratogênese",
+    "likes": 288,
+    "timeAgo": "11 h",
+    "content": {
+      "badge": "PEGADINHA DE GESTAÇÃO",
+      "headline": "Trocar Lítio por Valproato na grávida é o pior erro que você pode cometer.",
+      "trapLabel": "O erro por medo da Anomalia de Ebstein:",
+      "trapText": "Paciente bipolar descobre gravidez usando Lítio e o médico troca na hora por Ácido Valproico achando que está protegendo o feto.",
+      "revealLabel": "O que realmente acontece:",
+      "revealText": "O Lítio aumenta o risco de Anomalia de Ebstein (valva tricúspide), mas o risco absoluto é baixo (~0,05% a 0,1%) — monitora com eco fetal com 16–20 semanas. Já o ÁCIDO VALPROICO é o pior teratógeno da psiquiatria: causa defeito de tubo neural (espinha bífida em 1%–5%) e queda de QI.",
+      "hardNumbers": ["Lítio: Ebstein (risco baixo)", "Valproato: Defeito tubo neural (1–5%)", "Eco fetal: 16 a 20 semanas"]
+    },
+    "caption": "Muita gente tem pavor de Lítio na gestação e esquece que o Ácido Valproico é muito mais teratogênico. Em gestante bipolar grave estável com Lítio, muitas vezes mantemos com eco fetal e ajuste de dose no parto.",
+    "fullCard": {
+      "title": "EH-11 — Lítio na Gestação: Primeiro Trimestre e Anomalia de Ebstein",
+      "explanation": "O lítio difunde-se passivamente pela placenta. A exposição durante a organogênese cardíaca (semanas 2 a 8) associa-se classicamente ao deslocamento apical dos folhetos da valva tricúspide (Anomalia de Ebstein). Contudo, o risco absoluto é menor do que se pensava historicamente, e a interrupção abrupta do lítio gera altíssimo risco de recaída maníaca no puerpério.",
+      "hardData": "• Malformação clássica do Lítio: Anomalia de Ebstein.\n• Exame obrigatório no pré-natal: Ecocardiograma fetal (16 a 20 semanas).\n• No parto: o clearance renal materno cai subitamente após o nascimento — reduzir/ajustar dose de lítio periparto para evitar intoxicação materna e neonatal (floppy baby).",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; Guia de Estudos em Psiquiatria"
+    }
+  },
+  {
+    "id": "AP-12",
+    "profile": "antipsicoticos_e_neurolepticos",
+    "format": "red_flag",
+    "tag": "#SintomasExtrapiramidais",
+    "location": "Emergência Médica · UTI",
+    "likes": 374,
+    "timeAgo": "12 h",
+    "content": {
+      "badge": "RISCO DE MORTE NA ENFERMARIA",
+      "headline": "Paciente usando Haloperidol ficou duro feito 'cano de chumbo' e com febre de 39 °C?",
+      "trapLabel": "O erro fatal na enfermaria:",
+      "trapText": "Achar que o paciente está 'agitado pela psicose' ou com infecção simples e dar MAIS Haloperidol.",
+      "revealLabel": "É Síndrome Neuroléptica Maligna (SNM):",
+      "revealText": "Tétrade: rigidez em 'cano de chumbo' + febre > 38,5 °C + disautonomia (PA instável, taquicardia) + rebaixamento. Pede CPK (vai estar > 1.000 U/L) e leucograma. Conduta: PARAR o antipsicótico na hora + hidratação venosa agressiva + Dantrolene e/ou Bromocriptina.",
+      "hardNumbers": ["Rigidez: 'Cano de chumbo'", "Lab: CPK > 1.000 U/L + Leucocitose", "Tratamento: Dantrolene / Bromocriptina"]
+    },
+    "caption": "Serotoninérgica dá clônus e reflexo vivo. Neuroléptica Maligna dá rigidez em cano de chumbo e CPK estourada. Se você continuar dando antipsicótico, o paciente faz rabdomiólise e insuficiência renal.",
+    "fullCard": {
+      "title": "AP-12 — Síndrome Neuroléptica Maligna (SNM): Critérios e Conduta",
+      "explanation": "Reação idiossincrática grave (mortalidade de 10% a 20% se não tratada) desencadeada por bloqueio dopaminérgico D2 abrupto no hipotálamo (termorregulação) e via nigroestriatal (rigidez).",
+      "hardData": "• Achado laboratorial chave: elevação acentuada de Creatinofosfoquinase (CPK > 1.000 a > 10.000 U/L) por rabdomiólise.\n• Tratamento específico: Dantrolene sódico EV (relaxante muscular direto) e Bromocriptina VO (agonista dopaminérgico).",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; Aula_Emergencias_Psiquiatricas"
+    }
+  },
+  {
+    "id": "BZD-26",
+    "profile": "sedativos_e_ansioliticos",
+    "format": "cena_real",
+    "tag": "#AliancaTerapeutica",
+    "location": "Consultório · Psicoeducação",
+    "likes": 419,
+    "timeAgo": "14 h",
+    "content": {
+      "context": "Primeira consulta · Paciente em crise de Pânico recebendo Sertralina + Clonazepam",
+      "dialogue": [
+        {
+          "speaker": "Médico",
+          "text": "A Sertralina é o remédio que vai tratar a raiz das suas crises, mas ela leva de 2 a 4 semanas para começar a agir de verdade."
+        },
+        {
+          "speaker": "Paciente",
+          "text": "E até lá eu vou continuar passando mal todo dia? E esse Clonazepam vicia?"
+        },
+        {
+          "speaker": "Médico",
+          "text": "O Clonazepam entra exatamente como ponte nessas primeiras 2 a 4 semanas para segurar as crises agora. Como o corpo se acostuma rápido se usar por meses, vamos usar com data marcada de saída: na revisão de 30 dias, com a Sertralina já funcionando, a gente tira aos poucos sem você sentir falta."
+        }
+      ],
+      "takeaway": "Pactuar o prazo (2 a 4 semanas) e entregar a receita exata para 1 mês evita dependência crônica sem aterrorizar o paciente."
+    },
+    "caption": "Nem prescrever Clonazepam 'pra sempre' com receita para 6 meses, nem assustar o paciente dizendo que ele vai viciar na primeira gota. Combinar a data de saída no dia 1 evita 90% dos desmames difíceis.",
+    "fullCard": {
+      "title": "BZD-26 — Cenário Real de Consultório: Alinhamento do Tempo Máximo de Uso",
+      "explanation": "Nos transtornos ansiosos (TP e TAG), os benzodiazepínicos atuam apenas como terapia-ponte transitória durante a latência dos ISRS/IRSN (14 a 28 dias). Pactuar a duração desde a primeira consulta preserva a adesão e evita tolerância farmacodinâmica.",
+      "hardData": "• Janela de terapia-ponte: 2 a 4 semanas.\n• Conduta prática: fornecer receita controlada com a quantidade exata de comprimidos para o período pactuado.",
+      "source": "Fontana, Cap. 4, pp. 125, 142–143; Cap. 11, pp. 343–345; 6 - Revisando com Questões Inéditas, Q14"
+    }
+  },
+  {
+    "id": "ISRS-21",
+    "profile": "isrs_e_duais",
+    "format": "quiz",
+    "tag": "#InteracoesMedicamentosas",
+    "location": "Plantão · Diagnóstico Diferencial",
+    "likes": 221,
+    "timeAgo": "16 h",
+    "content": {
+      "question": "Tomava Fluoxetina 40 mg, recebeu Tramadol para dor lombar e 12h depois abriu febre de 38,9 °C, sudorese, hiperreflexia e clônus ocular. O que é?",
+      "options": [
+        { "id": "A", "text": "Síndrome Neuroléptica Maligna — dar Dantrolene", "correct": false },
+        { "id": "B", "text": "Síndrome Serotoninérgica — parar tudo + Benzodiazepínico / Ciproeptadina", "correct": true },
+        { "id": "C", "text": "Síndrome Anticolinérgica — dar Fisostigmina", "correct": false },
+        { "id": "D", "text": "Efeito Queijo por Tiramina — dar Nitroprussiato", "correct": false }
+      ],
+      "explanation": "Tramadol também inibe recaptação de serotonina! Junto com Fluoxetina, disparou Síndrome Serotoninérgica (clônus + hiperreflexia + febre). Suspende os dois, segura agitação/temperatura com Benzodiazepínico e usa Ciproeptadina se moderado/grave."
+    },
+    "caption": "Tramadol + ISRS ou Linezolida + ISRS derruba muita gente no hospital geral. Viu clônus e reflexo exaltado? É excesso de serotonina.",
+    "fullCard": {
+      "title": "ISRS-21 — Síndrome Serotoninérgica: Critérios de Hunter e Manejo",
+      "explanation": "Toxicidade por hiperestimulação de receptores serotoninérgicos centrais e periféricos (5-HT1A e 5-HT2A). Diferencia-se da SNM pelo início rápido (horas), presença de hiperreflexia, mioclonias e clônus (em vez de rigidez em cano de chumbo).",
+      "hardData": "• Critérios de Hunter (basta 1 na presença de agente serotoninérgico): clônus espontâneo; clônus induzível + agitação/diaforese; clônus ocular + agitação/diaforese; tremor + hiperreflexia.\n• Antagonista específico: Ciproeptadina (12 mg inicial, seguido de 2 mg a cada 2h se necessário).",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; Aula_Emergencias_Psiquiatricas"
+    }
+  },
+  {
+    "id": "AP-21",
+    "profile": "antipsicoticos_e_neurolepticos",
+    "format": "comparativo",
+    "tag": "#ClozapinaOuro",
+    "location": "Esquizofrenia Refratária",
+    "likes": 298,
+    "timeAgo": "18 h",
+    "content": {
+      "title": "Quando sair do Haloperidol e entrar com Clozapina?",
+      "left": {
+        "name": "Típicos (ex.: Haloperidol)",
+        "status": "USO INICIAL",
+        "color": "slate",
+        "points": [
+          "Bloqueia > 80% de D2 no estriado",
+          "Dá muito efeito motor (SEP / Discinesia)",
+          "Não tem efeito específico anti-suicídio",
+          "Não precisa de hemograma toda semana"
+        ]
+      },
+      "right": {
+        "name": "Clozapina",
+        "status": "PADRÃO-OURO REFRATÁRIA",
+        "color": "blue",
+        "points": [
+          "Mais eficaz de todos os antipsicóticos",
+          "Zero SEP e não piora Discinesia Tardia",
+          "Única que reduz suicídio e agressividade",
+          "Exige hemograma (risco de agranulocitose 1%)"
+        ]
+      },
+      "footer": "Esquizofrenia refratária = falhou a 2 antipsicóticos diferentes em dose cheia por 6–8 semanas cada. Aí é Clozapina."
+    },
+    "caption": "Clozapina dá trabalho com hemograma? Dá. Mas se o paciente falhou a dois antipsicóticos ou tem risco alto de suicídio na esquizofrenia, nada substitui ela.",
+    "fullCard": {
+      "title": "AP-21 — Clozapina: Padrão-Ouro na Esquizofrenia Refratária, Agressividade e Suicídio",
+      "explanation": "Derivado dibenzodiazepínico de eficácia superior a todos os demais antipsicóticos na esquizofrenia resistente. Exige vigilância hematológica estrita pelo risco de neutropenia/agranulocitose (principalmente nos primeiros 6 meses), além de monitorização para miocardite e convulsões dose-dependentes.",
+      "hardData": "• Hemograma semanal nas primeiras 18 semanas; quinzenal até 1 ano; mensal depois.\n• Outros efeitos graves: sialorreia noturna intensa, constipação grave (íleo paralítico) e convulsões em doses > 600 mg/dia.",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; Diretrizes Esquizofrenia Refratária"
+    }
+  },
+  {
+    "id": "EH-21",
+    "profile": "estabilizadores_do_humor",
+    "format": "carrossel",
+    "tag": "#Lamotrigina",
+    "location": "Dermatologia & Psiquiatria",
+    "likes": 334,
+    "timeAgo": "20 h",
+    "content": {
+      "slides": [
+        {
+          "type": "cover",
+          "kicker": "ALERTA DE PRESCRIÇÃO",
+          "title": "Começou Lamotrigina em dose alta? O paciente pode parar na UTI por necrose de pele.",
+          "subtitle": "Stevens-Johnson (SSJ/NET) com Lamotrigina depende direto da velocidade com que você sobe a dose."
+        },
+        {
+          "type": "body",
+          "step": "1 / 3 · SUBA DEVAGAR",
+          "title": "O esquema padrão não é opcional",
+          "text": "O risco de rash grave dispara se você começar com 100 mg ou pular etapas.",
+          "highlight": "Padrão: 25 mg/dia (semanas 1–2) -> 50 mg/dia (semanas 3–4) -> 100 mg/dia (semana 5) -> 200 mg/dia."
+        },
+        {
+          "type": "body",
+          "step": "2 / 3 · CUIDADO COM VALPROATO",
+          "title": "Usa Ácido Valproico junto? Corte a dose pela metade",
+          "text": "O Valproato trava a eliminação da Lamotrigina no fígado e dobra o nível dela no sangue.",
+          "highlight": "Com Valproato, comece com 25 mg em DIAS ALTERNADOS (ou 12,5 mg/dia) nas 2 primeiras semanas!"
+        },
+        {
+          "type": "body",
+          "step": "3 / 3 · APARECEU MANCHA OU FEBRE?",
+          "title": "Não espere virar bolha",
+          "text": "Exantema, dor de garganta, febre ou lesão em boca/olhos.",
+          "highlight": "SUSPENDA NA HORA a Lamotrigina. Depois de rash grave, nunca mais reintroduzir."
+        }
+      ]
+    },
+    "caption": "Lamotrigina segura muito bem a depressão bipolar, mas não aceita pressa na titulação. Se o paciente já usa Valproato e você esquece de cortar a dose inicial pela metade, o risco de Stevens-Johnson explode.",
+    "fullCard": {
+      "title": "EH-21 — Titulação Lenta da Lamotrigina e Risco de Síndrome de Stevens-Johnson (SSJ / NET)",
+      "explanation": "Reação de hipersensibilidade tardia tipo IV que provoca necrose extensa de queratinócitos e descolamento dermoepidérmico. Atinge principalmente crianças e pacientes com escalonamento rápido ou co-prescrição de Valproato.",
+      "hardData": "• Dose inicial padrão: 25 mg/dia por 14 dias.\n• Com Ácido Valproico: 25 mg em dias alternados por 14 dias (dose alvo ~100 mg/dia).\n• Com Carbamazepina (indutor): dobrar a velocidade de titulação (alvo até 400 mg/dia).",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4"
+    }
+  },
+  {
+    "id": "ISRS-16",
+    "profile": "isrs_e_duais",
+    "format": "comparativo",
+    "tag": "#AntidepressivosDuais",
+    "location": "Escolha Clínica · IRSN",
+    "likes": 176,
+    "timeAgo": "22 h",
+    "content": {
+      "title": "Venlafaxina 75 mg NÃO é 'dual' de verdade. Entenda a diferença para a Duloxetina:",
+      "left": {
+        "name": "Venlafaxina",
+        "status": "DOSE-DEPENDENTE",
+        "color": "slate",
+        "points": [
+          "<= 75 mg/dia: age só em serotonina (igual a ISRS)",
+          ">= 150 mg/dia: só aí entra a noradrenalina",
+          "> 225 mg: vigiar pressão arterial (pode subir)",
+          "Meia-vida curta: dá choques/tontura se atrasar 1 dia"
+        ]
+      },
+      "right": {
+        "name": "Duloxetina",
+        "status": "DUAL DESDE O DIA 1",
+        "color": "blue",
+        "points": [
+          "Já bloqueia serotonina + noradrenalina em 60 mg",
+          "Excelente em fibromialgia e dor neuropática",
+          "Sobe menos a pressão que venlafaxina alta",
+          "Evitar em hepatopata e etilista pesado"
+        ]
+      },
+      "footer": "Depressão + dor crônica? Duloxetina costuma resolver melhor. Quer efeito dual da Venlafaxina? Precisa chegar em 150 mg/dia."
+    },
+    "caption": "Muita gente deixa o paciente com Venlafaxina 75 mg achando que ele está recebendo efeito noradrenérgico. Nessa dose ela trabalha praticamente só como um ISRS comum.",
+    "fullCard": {
+      "title": "ISRS-16 — Venlafaxina e Duloxetina: Farmacodinâmica Dual e Indicações",
+      "explanation": "Ambos são Inibidores da Recaptação de Serotonina e Noradrenalina (IRSN), mas a Venlafaxina possui afinidade sequencial (5-HT primeiro, NA depois de 150 mg/dia), enquanto a Duloxetina é equilibrada desde 60 mg/dia.",
+      "hardData": "• Venlafaxina: 75 a 225–375 mg/dia (monitorar PA em doses >= 225 mg/dia).\n• Duloxetina: 60 mg/dia (máx 120 mg/dia).\n• Ambas exigem desmame gradual para evitar tontura e choques elétricos (parestesias) por retirada.",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; ANTIDEPRESSIVOS.pptx"
+    }
+  },
+  {
+    "id": "ADT-13",
+    "profile": "antidepressivos_classicos_e_atipicos",
+    "format": "cena_real",
+    "tag": "#InibidoresDaMAO",
+    "location": "Pronto-Socorro · Emergência Hipertensiva",
+    "likes": 263,
+    "timeAgo": "1 d",
+    "content": {
+      "context": "23h15 · Paciente em uso de Tranilcipromina (Parnate) há 3 meses",
+      "dialogue": [
+        {
+          "speaker": "Paciente",
+          "text": "Doutor, minha cabeça parece que vai explodir na nuca! Estou suando frio e o coração disparou depois do jantar."
+        },
+        {
+          "speaker": "Médico",
+          "text": "PA de 220 x 130 mmHg! O que você comeu e bebeu hoje à noite?"
+        },
+        {
+          "speaker": "Paciente",
+          "text": "Fui a um restaurante italiano: comi tábua de queijos curados, salame e tomei duas taças de vinho tinto."
+        },
+        {
+          "speaker": "Médico",
+          "text": "Crise hipertensiva por Tiramina ('Efeito Queijo'). A Tranilcipromina bloqueou a enzima do intestino que destruía a tiramina da comida."
+        }
+      ],
+      "takeaway": "IMAO irreversível exige dieta sem tiramina (queijos maturados, embutidos, vinho) e 14 dias de washout antes de iniciar ISRS."
+    },
+    "caption": "Tranilcipromina salva casos difíceis de depressão atípica e refratária, mas exige orientação alimentar na ponta da língua: queijo curado, salame e vinho tinto podem mandar o paciente direto para emergência hipertensiva.",
+    "fullCard": {
+      "title": "ADT-13 — Crise Hipertensiva por Tiramina ('Efeito Queijo') nos IMAOs",
+      "explanation": "A Tranilcipromina inibe irreversivelmente a MAO-A e MAO-B no intestino e fígado. A tiramina ingerida entra intacta na corrente sanguínea e desloca vesículas de noradrenalina nos terminais simpáticos, causando vasoconstrição severa e risco de AVC hemorrágico.",
+      "hardData": "• Alimentos proibidos: queijos maturados/envelhecidos, embutidos/defumados, vinho tinto/cerveja de barril, fígado, molho shoyu fermentado.\n• Washout obrigatório após suspender IMAO irreversível: 14 dias (para síntese de nova enzima MAO).",
+      "source": "Manual de Clínica em Psiquiatria (Fontana, 1ª Ed.), Cap. 4; ANTIDEPRESSIVOS.pptx"
+    }
+  }
+]
