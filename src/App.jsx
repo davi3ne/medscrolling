@@ -110,6 +110,34 @@ export default function App() {
     }
   });
 
+  const defaultAccount = {
+    name: 'Meu Perfil',
+    handle: 'residente.med',
+    stage: 'Internato / Residência',
+    bio: 'Trocando o doomscrolling por revisão clínica diária.',
+    dailyGoal: 10,
+    avatarColor: '#0095f6',
+    configured: false,
+    createdAt: new Date().toISOString().slice(0, 10),
+  };
+
+  const [account, setAccount] = useState(() => {
+    try {
+      const raw = localStorage.getItem('medscrolling_account');
+      return raw ? { ...defaultAccount, ...JSON.parse(raw) } : defaultAccount;
+    } catch {
+      return defaultAccount;
+    }
+  });
+
+  const [dailyActivity, setDailyActivity] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('medscrolling_activity') || '{}');
+    } catch {
+      return {};
+    }
+  });
+
   useEffect(() => localStorage.setItem('medfeed_dark', String(dark)), [dark]);
   useEffect(() => localStorage.setItem('medfeed_following', JSON.stringify(followingHandles)), [followingHandles]);
   useEffect(() => localStorage.setItem('medfeed_viewed_stories', JSON.stringify(viewedStories)), [viewedStories]);
@@ -118,6 +146,8 @@ export default function App() {
   useEffect(() => localStorage.setItem('medfeed_quizzes', JSON.stringify(quizAnswers)), [quizAnswers]);
   useEffect(() => localStorage.setItem('medfeed_seen', JSON.stringify(seenIds)), [seenIds]);
   useEffect(() => localStorage.setItem('medfeed_notes', JSON.stringify(notesMap)), [notesMap]);
+  useEffect(() => localStorage.setItem('medscrolling_account', JSON.stringify(account)), [account]);
+  useEffect(() => localStorage.setItem('medscrolling_activity', JSON.stringify(dailyActivity)), [dailyActivity]);
 
   const profileMap = useMemo(() => {
     const map = {};
@@ -163,9 +193,105 @@ export default function App() {
     return postsData.filter((post) => savedIds.includes(post.id));
   }, [savedIds]);
 
-  const markPostSeen = useCallback((id) => {
-    setSeenIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+  const getTodayKey = () => new Date().toISOString().slice(0, 10);
+
+  const recordTodayActivity = useCallback(() => {
+    const key = getTodayKey();
+    setDailyActivity((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
   }, []);
+
+  const markPostSeen = useCallback(
+    (id) => {
+      setSeenIds((prev) => {
+        if (prev.includes(id)) return prev;
+        recordTodayActivity();
+        return [...prev, id];
+      });
+    },
+    [recordTodayActivity]
+  );
+
+  const todayCount = dailyActivity[getTodayKey()] || 0;
+
+  const streak = useMemo(() => {
+    let count = 0;
+    const d = new Date();
+    const todayStr = d.toISOString().slice(0, 10);
+    if (!dailyActivity[todayStr]) {
+      d.setDate(d.getDate() - 1);
+    }
+    while (true) {
+      const key = d.toISOString().slice(0, 10);
+      if (dailyActivity[key] > 0) {
+        count += 1;
+        d.setDate(d.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return count;
+  }, [dailyActivity]);
+
+  const exportBackup = () => {
+    const payload = {
+      app: 'MedScrolling',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      account,
+      followingHandles,
+      likedIds,
+      savedIds,
+      quizAnswers,
+      seenIds,
+      notesMap,
+      dailyActivity,
+      dark,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `medscrolling-backup-${getTodayKey()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const importBackup = (data) => {
+    if (!data || typeof data !== 'object') return false;
+    if (data.account) setAccount({ ...defaultAccount, ...data.account });
+    if (Array.isArray(data.followingHandles)) setFollowingHandles(data.followingHandles);
+    if (Array.isArray(data.likedIds)) setLikedIds(data.likedIds);
+    if (Array.isArray(data.savedIds)) setSavedIds(data.savedIds);
+    if (data.quizAnswers && typeof data.quizAnswers === 'object') setQuizAnswers(data.quizAnswers);
+    if (Array.isArray(data.seenIds)) {
+      setSeenIds(data.seenIds);
+      seenSnapshotRef.current = data.seenIds;
+    }
+    if (data.notesMap && typeof data.notesMap === 'object') setNotesMap(data.notesMap);
+    if (data.dailyActivity && typeof data.dailyActivity === 'object') setDailyActivity(data.dailyActivity);
+    if (typeof data.dark === 'boolean') setDark(data.dark);
+    setFeedSeed(Math.random());
+    return true;
+  };
+
+  const resetAllData = () => {
+    setLikedIds([]);
+    setSavedIds([]);
+    setQuizAnswers({});
+    setSeenIds([]);
+    seenSnapshotRef.current = [];
+    setNotesMap({});
+    setDailyActivity({});
+    setViewedStories([]);
+    setFollowingHandles(ALL_HANDLES);
+    setFeedSeed(Math.random());
+  };
+
+  const accountInitials = useMemo(() => {
+    const parts = (account.name || account.handle || 'MS').trim().split(/\s+/);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return (parts[0] || 'MS').slice(0, 2).toUpperCase();
+  }, [account.name, account.handle]);
 
   const refreshFeed = () => {
     setRefreshing(true);
@@ -516,21 +642,35 @@ export default function App() {
             {/* Main Content Area */}
             {tab === 'me' ? (
               <MyProfilePage
+                account={account}
+                accountInitials={accountInitials}
+                todayCount={todayCount}
+                streak={streak}
                 profiles={profilesData}
+                posts={postsData}
                 postsCountByProfile={postsCountByProfile}
                 followingHandles={followingHandles}
                 savedCount={savedIds.length}
+                likedCount={likedIds.length}
+                quizAnswers={quizAnswers}
+                notesMap={notesMap}
                 correctQuizzesCount={correctQuizzesCount}
                 answeredQuizzesCount={Object.keys(quizAnswers).length}
                 seenCount={seenIds.length}
                 totalPostsCount={postsData.length}
                 dark={dark}
+                onToggleDark={() => setDark((d) => !d)}
+                onUpdateAccount={(next) => setAccount((prev) => ({ ...prev, ...next, configured: true }))}
                 onToggleFollow={toggleFollow}
                 onFollowAll={() => setFollowingHandles(ALL_HANDLES)}
                 onUnfollowAll={() => setFollowingHandles([])}
                 onResetSeen={resetSeen}
                 onOpenProfile={openProfile}
+                onOpenPostFicha={setActiveFichaPost}
                 onGoToSaved={() => setTab('saved')}
+                onExportBackup={exportBackup}
+                onImportBackup={importBackup}
+                onResetAllData={resetAllData}
               />
             ) : (
               <main className="flex-1 pb-16">
@@ -756,15 +896,20 @@ export default function App() {
               setTab('me');
             }}
             className="flex flex-1 items-center justify-center py-2"
-            aria-label="Meu Perfil"
+            aria-label="Minha Conta"
           >
-            <User
-              className={`h-6 w-6 ${
+            <div
+              className={`flex h-6 w-6 items-center justify-center rounded-full text-[9px] font-bold text-white transition ${
                 !viewingProfile && tab === 'me'
-                  ? 'stroke-[2.5]'
-                  : 'stroke-[1.75] opacity-65'
+                  ? dark
+                    ? 'ring-2 ring-white ring-offset-1 ring-offset-black'
+                    : 'ring-2 ring-[#262626] ring-offset-1 ring-offset-white'
+                  : 'opacity-80'
               }`}
-            />
+              style={{ backgroundColor: account.avatarColor || '#0095f6' }}
+            >
+              {accountInitials}
+            </div>
           </button>
         </nav>
       </div>
