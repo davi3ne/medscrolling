@@ -136,7 +136,7 @@ export default function PostMedia({
                       }}
                     />
                     <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between pr-12">
                         <span
                           className="rounded-full px-3 py-1 text-[10.5px] font-bold tracking-wider uppercase text-white shadow-md"
                           style={{ backgroundColor: brandColor }}
@@ -177,7 +177,7 @@ export default function PostMedia({
                       }}
                     />
                     <div className="relative z-10 flex h-full flex-col justify-between p-5 text-white">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 pr-12">
                         <span
                           className="rounded-md px-2.5 py-1 text-[10.5px] font-bold tracking-wider uppercase text-white"
                           style={{ backgroundColor: brandColor }}

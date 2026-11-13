@@ -8,10 +8,17 @@ const mdPath = path.resolve(appDir, '..', 'medfeed-conteudo', 'temas', 'psiquiat
 const postsPath = path.join(appDir, 'src', 'data', 'posts.json');
 
 const existingPosts = JSON.parse(fs.readFileSync(postsPath, 'utf-8'));
+const handcraftedIds = new Set([
+  'ISRS-05', 'BZD-05', 'EH-04', 'BZD-08', 'AP-01',
+  'ADT-21', 'ADT-03', 'EH-11', 'AP-12', 'BZD-26',
+  'ISRS-21', 'AP-21', 'EH-21', 'ISRS-16', 'ADT-13',
+]);
 const handcraftedMap = new Map();
 for (const p of existingPosts) {
-  const { likes, timeAgo, ...clean } = p;
-  handcraftedMap.set(p.id, clean);
+  if (handcraftedIds.has(p.id)) {
+    const { likes, timeAgo, ...clean } = p;
+    handcraftedMap.set(p.id, clean);
+  }
 }
 
 const md = fs.readFileSync(mdPath, 'utf-8');
@@ -96,21 +103,95 @@ function cleanMd(str) {
     .replace(/\*\*([^*]+)\*\*/g, '$1')
     .replace(/\*([^*]+)\*/g, '$1')
     .replace(/`([^`]+)`/g, '$1')
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
 function splitSentences(text) {
   const clean = cleanMd(text);
-  const parts = clean.match(/[^.!?]+[.!?]+/g);
-  return parts ? parts.map((s) => s.trim()).filter(Boolean) : [clean];
+  // Avoid splitting on "ex.", "Dr.", "p. ex.", decimal numbers
+  const protectedText = clean
+    .replace(/\bex\.:/gi, 'ex__COLON__')
+    .replace(/\bp\.\s*ex\./gi, 'p__ex__')
+    .replace(/(\d)\.(\d)/g, '$1__DOT__$2');
+  const parts = protectedText.match(/[^.!?]+[.!?]+/g) || [protectedText];
+  return parts
+    .map((s) =>
+      s
+        .replace(/ex__COLON__/g, 'ex.:')
+        .replace(/p__ex__/g, 'p. ex.')
+        .replace(/__DOT__/g, '.')
+        .trim()
+    )
+    .filter(Boolean);
 }
 
-function truncateText(text, maxLen) {
-  const clean = cleanMd(text);
-  if (clean.length <= maxLen) return clean;
-  const cut = clean.slice(0, maxLen);
-  const lastSpace = cut.lastIndexOf(' ');
-  return (lastSpace > 40 ? cut.slice(0, lastSpace) : cut).trim() + '...';
+function stripParentheticals(text) {
+  return cleanMd(text).replace(/\s*\([^)]{15,}\)/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function ensurePeriod(s) {
+  const t = s.trim();
+  if (!t) return '';
+  return /[.!?]$/.test(t) ? t : `${t}.`;
+}
+
+// Fits complete sentences without EVER cutting mid-sentence with "..."
+function fitCompleteText(rawText, maxLen) {
+  const sentences = splitSentences(rawText);
+  let out = '';
+  for (const s of sentences) {
+    const candidate = out ? `${out} ${s}` : s;
+    if (candidate.length <= maxLen) {
+      out = candidate;
+    } else if (!out) {
+      // First sentence itself is too long: simplify parentheticals or split at semicolon
+      const noParen = stripParentheticals(s);
+      if (noParen.length <= maxLen) {
+        out = noParen;
+      } else {
+        const clause = noParen.split(';')[0].trim();
+        out = clause.length <= maxLen ? ensurePeriod(clause) : ensurePeriod(noParen.split(',')[0].trim());
+      }
+      break;
+    } else {
+      break;
+    }
+  }
+  return ensurePeriod(out || stripParentheticals(rawText));
+}
+
+function fitBullet(rawBullet, maxLen) {
+  let b = cleanMd(rawBullet);
+  if (b.length <= maxLen) return b;
+  b = stripParentheticals(b);
+  if (b.length <= maxLen) return b;
+  const firstClause = b.split(';')[0].trim();
+  if (firstClause.length <= maxLen) return firstClause;
+  return b.split(',')[0].trim();
+}
+
+function clinicalScore(sentence) {
+  const s = sentence.toLowerCase();
+  let score = 0;
+  // Prefer practical clinical language
+  if (/paciente|conduta|risco|evitar|prescrev|dose|mg|mEq|ms|semana|dia|hora|exame|ecg|litemia|hemograma|gesta|idoso|emerg|crise|alerta|sinal|efeito|sintoma|troca|suspender|iniciar/.test(s)) {
+    score += 3;
+  }
+  // Penalize heavy molecular/receptor jargon on the feed surface
+  if (/autorreceptor|somatodendrít|downregulation|exocitose|vesicula|genômic|bdnf|monoaminérg|alostéric|isoforma|alfa-1|alfa-2|5-ht1a|5-ht2|histaminérg|muscarín/.test(s)) {
+    score -= 2;
+  }
+  return score;
+}
+
+function pickClinicalSentences(sentences) {
+  if (sentences.length <= 2) return sentences;
+  const ranked = sentences.map((s, i) => ({ s, i, score: clinicalScore(s) }));
+  const clinical = ranked.filter((x) => x.score >= 1).map((x) => x.s);
+  if (clinical.length >= 2) return clinical;
+  // Fallback: skip overly academic sentence 0 if sentence 1+ are better
+  return ranked.sort((a, b) => b.score - a.score || a.i - b.i).map((x) => x.s);
 }
 
 function pickBgImage(ficha) {
@@ -135,8 +216,16 @@ function inferLocation(ficha) {
   return 'Ambulatório · Prescrição Clínica';
 }
 
+const SLIDE2_TITLES = [
+  'O que importa na prática',
+  'Como conduzir no consultório',
+  'Resumo clínico direto',
+  'Ponto-chave da prescrição',
+];
+
 function buildGeneratedPost(ficha, idx) {
-  const sentences = splitSentences(ficha.explanation);
+  const rawSentences = splitSentences(ficha.explanation);
+  const clinicalSentences = pickClinicalSentences(rawSentences);
   const pegadinhaClean = cleanMd(ficha.pegadinha);
   const dadosClean = ficha.dadosDuros.map(cleanMd);
   const bgImage = pickBgImage(ficha);
@@ -145,7 +234,7 @@ function buildGeneratedPost(ficha, idx) {
   const hardDataText =
     dadosClean.length > 0
       ? dadosClean.map((d) => `• ${d}`).join('\n')
-      : `• ${truncateText(pegadinhaClean || ficha.explanation, 180)}`;
+      : `• ${cleanMd(pegadinhaClean || ficha.explanation)}`;
 
   const fullCard = {
     title: `${ficha.id} — ${cleanMd(ficha.title)}`,
@@ -154,20 +243,18 @@ function buildGeneratedPost(ficha, idx) {
     source: cleanMd(ficha.source),
   };
 
-  // Alternate between red_flag (when pegadinha is strong) and carrossel
   const useRedFlag = idx % 2 === 1 && pegadinhaClean.length > 20;
 
   if (useRedFlag) {
     const pegSentences = splitSentences(pegadinhaClean);
-    const trapText = truncateText(pegSentences[0] || pegadinhaClean, 155);
-    const revealText = truncateText(
-      pegSentences.slice(1).join(' ') || sentences[0] || ficha.explanation,
-      195
-    );
+    const trapText = fitCompleteText(pegSentences[0] || pegadinhaClean, 165);
+    const revealSource =
+      pegSentences.slice(1).join(' ') || clinicalSentences[0] || rawSentences[0] || ficha.explanation;
+    const revealText = fitCompleteText(revealSource, 195);
     const hardNumbers =
       dadosClean.length > 0
-        ? dadosClean.slice(0, 3).map((d) => truncateText(d, 54))
-        : [truncateText(sentences[sentences.length - 1] || ficha.title, 54)];
+        ? dadosClean.slice(0, 2).map((d) => fitBullet(d, 58))
+        : [fitBullet(clinicalSentences[0] || ficha.title, 58)];
 
     return {
       id: ficha.id,
@@ -178,37 +265,36 @@ function buildGeneratedPost(ficha, idx) {
       bgImage,
       content: {
         badge: 'PEGADINHA CLÍNICA',
-        headline: truncateText(cleanMd(ficha.title), 88),
-        trapLabel: 'Erro clássico no plantão ou na prova:',
+        headline: cleanMd(ficha.title),
+        trapLabel: 'Erro comum no plantão ou na prova:',
         trapText,
         revealLabel: 'Conduta correta:',
         revealText,
         hardNumbers,
       },
-      caption: truncateText(`${pegadinhaClean} ${dadosClean[0] ? `(${dadosClean[0]})` : ''}`, 240),
+      caption: fitCompleteText(`${pegadinhaClean} ${dadosClean[0] ? `${dadosClean[0]}.` : ''}`, 240),
       fullCard,
     };
   }
 
-  // Carrossel format (3 slides)
-  const slide1Subtitle = truncateText(sentences[0] || ficha.explanation, 130);
-  const slide2Text = truncateText(
-    sentences.slice(1, 3).join(' ') || sentences[0] || ficha.explanation,
-    210
-  );
+  // Carrossel format (3 slides) — concise, complete sentences, clinical-first
+  const coverSub = fitCompleteText(clinicalSentences[0] || rawSentences[0] || ficha.explanation, 135);
+  const slide2Source =
+    clinicalSentences.slice(1).join(' ') || clinicalSentences[0] || rawSentences[0] || ficha.explanation;
+  const slide2Text = fitCompleteText(slide2Source, 200);
   const slide2Highlight = dadosClean[0]
-    ? truncateText(dadosClean[0], 110)
-    : truncateText(sentences[sentences.length - 1] || '', 110);
+    ? fitBullet(dadosClean[0], 110)
+    : fitCompleteText(clinicalSentences[clinicalSentences.length - 1] || '', 110);
 
-  const slide3Text = truncateText(
-    pegadinhaClean || dadosClean.slice(1).join(' · ') || ficha.explanation,
-    210
+  const slide3Text = fitCompleteText(
+    pegadinhaClean || dadosClean.slice(1).join('. ') || ficha.explanation,
+    200
   );
   const slide3Highlight = dadosClean[1]
-    ? truncateText(dadosClean[1], 110)
+    ? fitBullet(dadosClean[1], 110)
     : dadosClean[0]
-      ? truncateText(dadosClean[0], 110)
-      : 'Confira os números exatos na Ficha Completa';
+      ? fitBullet(dadosClean[0], 110)
+      : 'Veja os detalhes completos na Ficha abaixo.';
 
   return {
     id: ficha.id,
@@ -220,30 +306,30 @@ function buildGeneratedPost(ficha, idx) {
     content: {
       slides: [
         {
+          type: 'cover',
           kicker: ficha.tag.replace(/^#/, ''),
-          title: truncateText(cleanMd(ficha.title), 78),
-          subtitle: slide1Subtitle,
+          title: cleanMd(ficha.title),
+          subtitle: coverSub,
         },
         {
           step: 'Na prática',
-          title: 'O que define a conduta',
+          title: SLIDE2_TITLES[idx % SLIDE2_TITLES.length],
           text: slide2Text,
           highlight: slide2Highlight,
         },
         {
-          step: 'Atenção à pegadinha',
-          title: 'Não caia nesse erro',
+          step: 'Atenção ao erro',
+          title: 'Não caia nessa pegadinha',
           text: slide3Text,
           highlight: slide3Highlight,
         },
       ],
     },
-    caption: truncateText(`${sentences[0] || ''} ${pegadinhaClean}`, 240),
+    caption: fitCompleteText(`${clinicalSentences[0] || ''} ${pegadinhaClean}`, 240),
     fullCard,
   };
 }
 
-// Keep handcrafted posts first in curated order, then add the rest in clinical order
 const finalPosts = [];
 for (const [, post] of handcraftedMap) {
   finalPosts.push(post);
@@ -256,6 +342,4 @@ for (const ficha of fichas) {
 }
 
 fs.writeFileSync(postsPath, JSON.stringify(finalPosts, null, 2) + '\n', 'utf-8');
-console.log(`Parsed ${fichas.length} fichas from psiquiatria.md.`);
-console.log(`Preserved ${handcraftedMap.size} handcrafted posts + generated ${genIdx} posts.`);
-console.log(`Total posts written to src/data/posts.json: ${finalPosts.length}`);
+console.log(`Generated ${finalPosts.length} posts cleanly (zero mid-sentence "..." cuts).`);
