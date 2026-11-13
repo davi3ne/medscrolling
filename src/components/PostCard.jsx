@@ -127,7 +127,6 @@ export default function PostCard({
     await handleCopy();
   };
 
-  const totalLikes = post.likes + (liked ? 1 : 0);
   const slideCount = post.format === 'carrossel' ? post.content.slides.length : 0;
   const mutedText = dark ? 'text-[#a8a8a8]' : 'text-[#737373]';
   const borderCol = dark ? 'border-[#262626]' : 'border-[#dbdbdb]';
@@ -162,7 +161,7 @@ export default function PostCard({
                 {post.profile}
               </button>
               {profile?.verified && <VerifiedBadge />}
-              <span className={`text-[12px] ${mutedText}`}>• {post.timeAgo}</span>
+              <span className={`text-[12px] ${mutedText}`}>• {post.id}</span>
             </div>
             <div className={`truncate text-[11px] ${mutedText}`}>{post.location}</div>
           </div>
@@ -353,9 +352,11 @@ export default function PostCard({
         </button>
       </div>
 
-      {/* Likes & Caption */}
+      {/* Caption */}
       <div className="px-3 pb-3.5 text-[13.5px] leading-[1.4]">
-        <div className="font-semibold mb-1">{totalLikes} curtidas</div>
+        {liked && (
+          <div className="text-[12px] font-semibold mb-1 text-[#ed4956]">Curtido por você</div>
+        )}
 
         <div>
           <button
