@@ -595,10 +595,10 @@ export default function PostMedia({
             background: `linear-gradient(155deg, ${brandColor}dd 0%, #0b1120 48%, #020617 100%)`,
           }}
         >
-          {coverImage && (
+          {bgImage && (
             <>
               <img
-                src={coverImage}
+                src={bgImage}
                 alt=""
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-35 mix-blend-luminosity"
