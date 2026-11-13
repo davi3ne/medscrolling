@@ -48,6 +48,7 @@ export default function ProfilePage({
   likedIds,
   savedIds,
   notesMap,
+  commentsMap,
   quizAnswers,
   onBack,
   onToggleFollow,
@@ -58,6 +59,7 @@ export default function ProfilePage({
   onSelectQuizOption,
   onResetQuizOption,
   onOpenFicha,
+  onOpenComments,
   onFilterTag,
 }) {
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
@@ -289,6 +291,7 @@ export default function ProfilePage({
                 saved={savedIds.includes(post.id)}
                 isFollowing={isFollowing}
                 hasNote={Boolean(notesMap?.[post.id]?.trim())}
+                comments={commentsMap?.[post.id] || []}
                 quizAnswer={quizAnswers[post.id]}
                 onToggleLike={onToggleLike}
                 onDoubleTapLike={() => onDoubleTapLike(post.id)}
@@ -297,6 +300,7 @@ export default function ProfilePage({
                 onSelectQuizOption={onSelectQuizOption}
                 onResetQuizOption={onResetQuizOption}
                 onOpenFicha={onOpenFicha}
+                onOpenComments={onOpenComments}
                 onFilterProfile={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 onFilterTag={onFilterTag}
               />

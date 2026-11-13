@@ -49,6 +49,7 @@ export default function PostCard({
   saved,
   isFollowing,
   hasNote,
+  comments = [],
   quizAnswer,
   onToggleLike,
   onDoubleTapLike,
@@ -57,6 +58,7 @@ export default function PostCard({
   onSelectQuizOption,
   onResetQuizOption,
   onOpenFicha,
+  onOpenComments,
   onFilterProfile,
   onFilterTag,
   onSeen,
@@ -286,14 +288,16 @@ export default function PostCard({
 
           <button
             type="button"
-            onClick={() => onOpenFicha(post)}
-            className={`relative ${dark ? 'text-[#f5f5f5] hover:text-[#a8a8a8]' : 'text-[#262626] hover:text-[#737373]'}`}
-            aria-label="Abrir ficha e anotações"
-            title="Ver ficha completa e anotações"
+            onClick={() => onOpenComments(post)}
+            className={`relative inline-flex items-center gap-1 ${
+              dark ? 'text-[#f5f5f5] hover:text-[#a8a8a8]' : 'text-[#262626] hover:text-[#737373]'
+            }`}
+            aria-label="Comentários"
+            title="Ver e adicionar comentários"
           >
             <MessageCircle className="h-6 w-6" />
-            {hasNote && (
-              <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-[#0095f6]" />
+            {comments.length > 0 && (
+              <span className="text-[12.5px] font-semibold">{comments.length}</span>
             )}
           </button>
 
@@ -388,6 +392,34 @@ export default function PostCard({
             {post.tag}
           </button>
         </div>
+
+        {comments.length > 0 ? (
+          <div className="mt-1.5 space-y-1">
+            <button
+              type="button"
+              onClick={() => onOpenComments(post)}
+              className={`block text-[12.5px] font-medium ${mutedText} hover:underline`}
+            >
+              {comments.length === 1
+                ? 'Ver 1 comentário'
+                : `Ver todos os ${comments.length} comentários`}
+            </button>
+            <div className="text-[12.5px] leading-snug">
+              <span className="font-semibold mr-1.5">
+                @{comments[comments.length - 1].handle}
+              </span>
+              <span>{comments[comments.length - 1].text}</span>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => onOpenComments(post)}
+            className={`mt-1.5 block text-[12.5px] ${mutedText} hover:underline`}
+          >
+            Adicione um comentário...
+          </button>
+        )}
 
         <div className="mt-1.5 flex items-center gap-3">
           <button

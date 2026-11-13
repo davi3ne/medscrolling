@@ -16,6 +16,7 @@ import postsData from './data/posts.json';
 import storiesData from './data/stories.json';
 import PostCard from './components/PostCard';
 import FichaModal from './components/FichaModal';
+import CommentsModal from './components/CommentsModal';
 import StoryViewer from './components/StoryViewer';
 import ProfilePage from './components/ProfilePage';
 import MyProfilePage from './components/MyProfilePage';
@@ -49,6 +50,7 @@ export default function App() {
   const [feedSeed, setFeedSeed] = useState(() => Math.random());
   const [refreshing, setRefreshing] = useState(false);
   const [activeFichaPost, setActiveFichaPost] = useState(null);
+  const [activeCommentsPost, setActiveCommentsPost] = useState(null);
   const [storyViewerState, setStoryViewerState] = useState(null); // { handles: string[], index: number } | null
 
   const [seenIds, setSeenIds] = useState(() => {
@@ -110,6 +112,14 @@ export default function App() {
     }
   });
 
+  const [commentsMap, setCommentsMap] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('medscrolling_comments') || '{}');
+    } catch {
+      return {};
+    }
+  });
+
   const defaultAccount = {
     name: 'Meu Perfil',
     handle: 'residente.med',
@@ -146,6 +156,7 @@ export default function App() {
   useEffect(() => localStorage.setItem('medfeed_quizzes', JSON.stringify(quizAnswers)), [quizAnswers]);
   useEffect(() => localStorage.setItem('medfeed_seen', JSON.stringify(seenIds)), [seenIds]);
   useEffect(() => localStorage.setItem('medfeed_notes', JSON.stringify(notesMap)), [notesMap]);
+  useEffect(() => localStorage.setItem('medscrolling_comments', JSON.stringify(commentsMap)), [commentsMap]);
   useEffect(() => localStorage.setItem('medscrolling_account', JSON.stringify(account)), [account]);
   useEffect(() => localStorage.setItem('medscrolling_activity', JSON.stringify(dailyActivity)), [dailyActivity]);
 
@@ -244,6 +255,7 @@ export default function App() {
       quizAnswers,
       seenIds,
       notesMap,
+      commentsMap,
       dailyActivity,
       dark,
     };
@@ -268,6 +280,7 @@ export default function App() {
       seenSnapshotRef.current = data.seenIds;
     }
     if (data.notesMap && typeof data.notesMap === 'object') setNotesMap(data.notesMap);
+    if (data.commentsMap && typeof data.commentsMap === 'object') setCommentsMap(data.commentsMap);
     if (data.dailyActivity && typeof data.dailyActivity === 'object') setDailyActivity(data.dailyActivity);
     if (typeof data.dark === 'boolean') setDark(data.dark);
     setFeedSeed(Math.random());
@@ -281,6 +294,7 @@ export default function App() {
     setSeenIds([]);
     seenSnapshotRef.current = [];
     setNotesMap({});
+    setCommentsMap({});
     setDailyActivity({});
     setViewedStories([]);
     setFollowingHandles(ALL_HANDLES);
@@ -367,9 +381,10 @@ export default function App() {
     tab: 'feed',
     viewingProfile: null,
     activeFichaPost: null,
+    activeCommentsPost: null,
     storyViewerState: null,
   });
-  navStateRef.current = { tab, viewingProfile, activeFichaPost, storyViewerState };
+  navStateRef.current = { tab, viewingProfile, activeFichaPost, activeCommentsPost, storyViewerState };
 
   const restoreScroll = useCallback((key) => {
     const y = scrollPositionsRef.current[key] || 0;
@@ -392,6 +407,7 @@ export default function App() {
     }
     const cur = navStateRef.current;
     if (cur.storyViewerState) setStoryViewerState(null);
+    else if (cur.activeCommentsPost) setActiveCommentsPost(null);
     else if (cur.activeFichaPost) setActiveFichaPost(null);
     else if (cur.viewingProfile) {
       setViewingProfile(null);
@@ -408,6 +424,8 @@ export default function App() {
       const cur = navStateRef.current;
       if (cur.storyViewerState) {
         setStoryViewerState(null);
+      } else if (cur.activeCommentsPost) {
+        setActiveCommentsPost(null);
       } else if (cur.activeFichaPost) {
         setActiveFichaPost(null);
       } else if (cur.viewingProfile) {
@@ -448,6 +466,39 @@ export default function App() {
     },
     [pushNavHistory]
   );
+
+  const openComments = useCallback(
+    (post) => {
+      pushNavHistory();
+      setActiveCommentsPost(post);
+    },
+    [pushNavHistory]
+  );
+
+  const addComment = useCallback(
+    (postId, text) => {
+      const newComment = {
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+        handle: account.handle,
+        initials: accountInitials,
+        avatarColor: account.avatarColor || '#0095f6',
+        text,
+        createdAt: new Date().toISOString(),
+      };
+      setCommentsMap((prev) => ({
+        ...prev,
+        [postId]: [...(prev[postId] || []), newComment],
+      }));
+    },
+    [account.handle, account.avatarColor, accountInitials]
+  );
+
+  const deleteComment = useCallback((postId, commentId) => {
+    setCommentsMap((prev) => ({
+      ...prev,
+      [postId]: (prev[postId] || []).filter((c) => c.id !== commentId),
+    }));
+  }, []);
 
   const openProfile = (handle) => {
     const cur = navStateRef.current;
@@ -515,6 +566,7 @@ export default function App() {
             likedIds={likedIds}
             savedIds={savedIds}
             notesMap={notesMap}
+            commentsMap={commentsMap}
             quizAnswers={quizAnswers}
             onBack={goBackInApp}
             onToggleFollow={toggleFollow}
@@ -525,6 +577,7 @@ export default function App() {
             onSelectQuizOption={selectQuizOption}
             onResetQuizOption={resetQuizOption}
             onOpenFicha={openFicha}
+            onOpenComments={openComments}
             onFilterTag={handleFilterTag}
           />
         ) : (
@@ -841,6 +894,7 @@ export default function App() {
                         saved={savedIds.includes(post.id)}
                         isFollowing={followingHandles.includes(post.profile)}
                         hasNote={Boolean(notesMap[post.id]?.trim())}
+                        comments={commentsMap[post.id] || []}
                         quizAnswer={quizAnswers[post.id]}
                         onToggleLike={toggleLike}
                         onDoubleTapLike={() => doubleTapLike(post.id)}
@@ -849,6 +903,7 @@ export default function App() {
                         onSelectQuizOption={selectQuizOption}
                         onResetQuizOption={resetQuizOption}
                         onOpenFicha={openFicha}
+                        onOpenComments={openComments}
                         onFilterProfile={openProfile}
                         onFilterTag={handleFilterTag}
                         onSeen={markPostSeen}
@@ -879,6 +934,7 @@ export default function App() {
                         saved={savedIds.includes(post.id)}
                         isFollowing={followingHandles.includes(post.profile)}
                         hasNote={Boolean(notesMap[post.id]?.trim())}
+                        comments={commentsMap[post.id] || []}
                         quizAnswer={quizAnswers[post.id]}
                         onToggleLike={toggleLike}
                         onDoubleTapLike={() => doubleTapLike(post.id)}
@@ -887,6 +943,7 @@ export default function App() {
                         onSelectQuizOption={selectQuizOption}
                         onResetQuizOption={resetQuizOption}
                         onOpenFicha={openFicha}
+                        onOpenComments={openComments}
                         onFilterProfile={openProfile}
                         onFilterTag={handleFilterTag}
                         onSeen={markPostSeen}
@@ -904,6 +961,7 @@ export default function App() {
                       saved={savedIds.includes(post.id)}
                       isFollowing={followingHandles.includes(post.profile)}
                       hasNote={Boolean(notesMap[post.id]?.trim())}
+                      comments={commentsMap[post.id] || []}
                       quizAnswer={quizAnswers[post.id]}
                       onToggleLike={toggleLike}
                       onDoubleTapLike={() => doubleTapLike(post.id)}
@@ -911,7 +969,8 @@ export default function App() {
                       onToggleFollow={toggleFollow}
                       onSelectQuizOption={selectQuizOption}
                       onResetQuizOption={resetQuizOption}
-                      onOpenFicha={setActiveFichaPost}
+                      onOpenFicha={openFicha}
+                      onOpenComments={openComments}
                       onFilterProfile={openProfile}
                       onFilterTag={handleFilterTag}
                     />
@@ -1009,6 +1068,18 @@ export default function App() {
         dark={dark}
         note={activeFichaPost ? notesMap[activeFichaPost.id] : ''}
         onSaveNote={saveNote}
+        onClose={goBackInApp}
+      />
+
+      {/* Instagram-style Comments Modal */}
+      <CommentsModal
+        post={activeCommentsPost}
+        comments={activeCommentsPost ? commentsMap[activeCommentsPost.id] || [] : []}
+        account={account}
+        accountInitials={accountInitials}
+        dark={dark}
+        onAddComment={addComment}
+        onDeleteComment={deleteComment}
         onClose={goBackInApp}
       />
 
